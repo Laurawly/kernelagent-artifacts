@@ -1,0 +1,273 @@
+Implement a Triton kernel that computes the following subgraph end-to-end.
+
+        Subgraph ID: inception3b_256_->_480_28x28
+        Type: inception_block
+        Data layout: NCHW
+        DType: float32
+
+        Shapes:
+        - input: [10, 256, 28, 28]
+
+        - output: [10, 480, 28, 28]
+
+        Weights (fused): {
+  "b1_conv1x1.weight": [
+    128,
+    256,
+    1,
+    1
+  ],
+  "b1_conv1x1.bias": [
+    128
+  ],
+  "b2_reduce.weight": [
+    128,
+    256,
+    1,
+    1
+  ],
+  "b2_reduce.bias": [
+    128
+  ],
+  "b2_conv3x3.weight": [
+    192,
+    128,
+    3,
+    3
+  ],
+  "b2_conv3x3.bias": [
+    192
+  ],
+  "b3_reduce.weight": [
+    32,
+    256,
+    1,
+    1
+  ],
+  "b3_reduce.bias": [
+    32
+  ],
+  "b3_conv5x5.weight": [
+    96,
+    32,
+    5,
+    5
+  ],
+  "b3_conv5x5.bias": [
+    96
+  ],
+  "b4_proj.weight": [
+    64,
+    256,
+    1,
+    1
+  ],
+  "b4_proj.bias": [
+    64
+  ]
+}
+        Weights (original): null
+
+        Operations in order (with parameters):
+        [
+  {
+    "op": "conv2d",
+    "in_channels": 256,
+    "out_channels": 128,
+    "kernel_size": [
+      1,
+      1
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      0,
+      0
+    ],
+    "dilation": [
+      1,
+      1
+    ],
+    "groups": 1,
+    "bias": true
+  },
+  {
+    "op": "conv2d",
+    "in_channels": 256,
+    "out_channels": 128,
+    "kernel_size": [
+      1,
+      1
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      0,
+      0
+    ],
+    "dilation": [
+      1,
+      1
+    ],
+    "groups": 1,
+    "bias": true
+  },
+  {
+    "op": "conv2d",
+    "in_channels": 128,
+    "out_channels": 192,
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      1,
+      1
+    ],
+    "dilation": [
+      1,
+      1
+    ],
+    "groups": 1,
+    "bias": true
+  },
+  {
+    "op": "conv2d",
+    "in_channels": 256,
+    "out_channels": 32,
+    "kernel_size": [
+      1,
+      1
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      0,
+      0
+    ],
+    "dilation": [
+      1,
+      1
+    ],
+    "groups": 1,
+    "bias": true
+  },
+  {
+    "op": "conv2d",
+    "in_channels": 32,
+    "out_channels": 96,
+    "kernel_size": [
+      5,
+      5
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      2,
+      2
+    ],
+    "dilation": [
+      1,
+      1
+    ],
+    "groups": 1,
+    "bias": true
+  },
+  {
+    "op": "maxpool2d",
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      1,
+      1
+    ]
+  },
+  {
+    "op": "conv2d",
+    "in_channels": 256,
+    "out_channels": 64,
+    "kernel_size": [
+      1,
+      1
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      0,
+      0
+    ],
+    "dilation": [
+      1,
+      1
+    ],
+    "groups": 1,
+    "bias": true
+  },
+  {
+    "op": "cat",
+    "dim": 1,
+    "num_inputs": 4
+  }
+]
+
+        Requirements:
+        - Return a complete Python file with a @triton.jit kernel and a wrapper function named kernel_function(...).
+        - kernel_function must accept input tensor(s) and any required weights/bias parameters (match shapes above).
+        - Implement the exact semantics of the listed ops in the given order for the provided shapes.
+        - Use NCHW layout and float32 dtype semantics.
+        - The test will import kernel_function and compare to the reference implementation below.
+
+        Test tolerance policy (enforced in generated tests):
+        - Default tolerances: rtol=1e-3, atol=1e-3.
+        - Absolute cap: NEVER exceed rtol=1e-2 or atol=1e-2 in torch.allclose.
+        - For float16/bfloat16 inputs: use rtol=1e-2, atol=1e-2 at most (do not go higher).
+        - Include a one-line comment if you relax from default; never exceed the cap.
+
+        Reference PyTorch implementation (exact semantics to match):
+
+```python
+import torch
+import torch.nn.functional as F
+
+def reference(x):
+
+    x = F.conv2d(x, conv_weight, stride=(1, 1), padding=(0, 0), dilation=(1, 1), groups=1)
+    x = F.conv2d(x, conv_weight, stride=(1, 1), padding=(0, 0), dilation=(1, 1), groups=1)
+    x = F.conv2d(x, conv_weight, stride=(1, 1), padding=(1, 1), dilation=(1, 1), groups=1)
+    x = F.conv2d(x, conv_weight, stride=(1, 1), padding=(0, 0), dilation=(1, 1), groups=1)
+    x = F.conv2d(x, conv_weight, stride=(1, 1), padding=(2, 2), dilation=(1, 1), groups=1)
+    # TODO: op 'maxpool2d' not explicitly handled; update generator if needed
+    x = F.conv2d(x, conv_weight, stride=(1, 1), padding=(0, 0), dilation=(1, 1), groups=1)
+    # TODO: op 'cat' not explicitly handled; update generator if needed
+    return x
+```
+
+Original source snippet (InceptionBlock):
+```python
+def forward(self, x):
+    b1 = self.branch1x1(x)
+    b2 = self.branch3x3(x)
+    b3 = self.branch5x5(x)
+    b4 = self.branch_pool(x)
+    return torch.cat([b1, b2, b3, b4], dim=1)
+```

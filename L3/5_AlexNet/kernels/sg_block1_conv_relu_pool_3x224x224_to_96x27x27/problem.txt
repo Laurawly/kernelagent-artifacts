@@ -1,0 +1,110 @@
+Implement a Triton kernel that computes the following subgraph end-to-end.
+
+        Subgraph ID: sg_block1_conv_relu_pool_3x224x224_to_96x27x27
+        Type: conv_relu_pool
+        Data layout: NCHW
+        DType: float32
+
+        Shapes:
+        - input: [1024, 3, 224, 224]
+
+        - output: [1024, 96, 27, 27]
+
+        Weights (fused): {
+  "weight": [
+    96,
+    3,
+    11,
+    11
+  ],
+  "bias": [
+    96
+  ]
+}
+        Weights (original): null
+
+        Operations in order (with parameters):
+        [
+  {
+    "op": "conv2d",
+    "in_channels": 3,
+    "out_channels": 96,
+    "kernel_size": [
+      11,
+      11
+    ],
+    "stride": [
+      4,
+      4
+    ],
+    "padding": [
+      2,
+      2
+    ],
+    "dilation": [
+      1,
+      1
+    ],
+    "groups": 1,
+    "bias": true,
+    "bn_fused": false
+  },
+  {
+    "op": "relu",
+    "inplace": true
+  },
+  {
+    "op": "maxpool2d",
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      2,
+      2
+    ],
+    "padding": [
+      0,
+      0
+    ],
+    "dilation": [
+      1,
+      1
+    ],
+    "ceil_mode": false
+  }
+]
+
+        Requirements:
+        - Return a complete Python file with a @triton.jit kernel and a wrapper function named kernel_function(...).
+        - kernel_function must accept input tensor(s) and any required weights/bias parameters (match shapes above).
+        - Implement the exact semantics of the listed ops in the given order for the provided shapes.
+        - Use NCHW layout and float32 dtype semantics.
+        - The test will import kernel_function and compare to the reference implementation below.
+
+        Test tolerance policy (enforced in generated tests):
+        - Default tolerances: rtol=1e-3, atol=1e-3.
+        - Absolute cap: NEVER exceed rtol=1e-2 or atol=1e-2 in torch.allclose.
+        - For float16/bfloat16 inputs: use rtol=1e-2, atol=1e-2 at most (do not go higher).
+        - Include a one-line comment if you relax from default; never exceed the cap.
+
+        Reference PyTorch implementation (exact semantics to match):
+
+```python
+import torch
+import torch.nn.functional as F
+
+def reference(x):
+
+    x = F.conv2d(x, weight, bias, stride=(4, 4), padding=(2, 2), dilation=(1, 1), groups=1)
+    x = torch.relu(x)
+    # TODO: op 'maxpool2d' not explicitly handled; update generator if needed
+    return x
+```
+
+Original source snippet (ConvReLUPool):
+```python
+x = self.conv(x)
+x = self.relu(x)
+x = self.pool(x)
+```

@@ -1,0 +1,108 @@
+[
+  {
+    "id": "stem_conv7x7_relu_maxpool3x3_s2",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_223738_449845",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_223134_45f3f6aa/kernels_out/stem_conv7x7_relu_maxpool3x3_s2/kernel.py"
+  },
+  {
+    "id": "conv2_1x1_relu",
+    "success": true,
+    "worker_id": 0,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_223726_140436",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_223134_45f3f6aa/kernels_out/conv2_1x1_relu/kernel.py"
+  },
+  {
+    "id": "conv3_3x3_relu_maxpool3x3_s2",
+    "success": true,
+    "worker_id": 0,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_223739_330320",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_223134_45f3f6aa/kernels_out/conv3_3x3_relu_maxpool3x3_s2/kernel.py"
+  },
+  {
+    "id": "inception3a_192_->_256_28x28",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_223749_649147"
+  },
+  {
+    "id": "inception3b_256_->_480_28x28",
+    "success": true,
+    "worker_id": 3,
+    "rounds": 2,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_224210_686222",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_223134_45f3f6aa/kernels_out/inception3b_256_->_480_28x28/kernel.py"
+  },
+  {
+    "id": "maxpool3_3x3_s2_480_28x28_to_480_14x14",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_224408_499300",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_223134_45f3f6aa/kernels_out/maxpool3_3x3_s2_480_28x28_to_480_14x14/kernel.py"
+  },
+  {
+    "id": "inception4a_480_->_512_14x14",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_224458_727905"
+  },
+  {
+    "id": "inception4b_512_->_512_14x14",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_224850_734044"
+  },
+  {
+    "id": "inception4c_512_->_512_14x14",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 3,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_224909_966297",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_223134_45f3f6aa/kernels_out/inception4c_512_->_512_14x14/kernel.py"
+  },
+  {
+    "id": "inception4d_512_->_528_14x14",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_225812_55762"
+  },
+  {
+    "id": "inception4e_528_->_832_14x14",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_231234_838494"
+  },
+  {
+    "id": "maxpool4_3x3_s2_832_14x14_to_832_7x7",
+    "success": true,
+    "worker_id": 0,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_231728_941160",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_223134_45f3f6aa/kernels_out/maxpool4_3x3_s2_832_14x14_to_832_7x7/kernel.py"
+  },
+  {
+    "id": "inception5a_832_->_832_7x7",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_232226_643542"
+  },
+  {
+    "id": "inception5b_832_->_1024_7x7",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_232917_728428"
+  },
+  {
+    "id": "head_avgpool_flatten_dropout_linear_1024_to_1000",
+    "success": true,
+    "worker_id": 0,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_234759_368834",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_223134_45f3f6aa/kernels_out/head_avgpool_flatten_dropout_linear_1024_to_1000/kernel.py"
+  }
+]

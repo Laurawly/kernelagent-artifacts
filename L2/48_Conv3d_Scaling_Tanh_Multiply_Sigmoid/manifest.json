@@ -1,0 +1,10 @@
+{
+  "level": "L2",
+  "name": "48_Conv3d_Scaling_Tanh_Multiply_Sigmoid",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "conv-relu-maxpool_4096x1x32x32_to_4096x6x14x14",
+    "success": true,
+    "worker_id": 3,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_195100_602556",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_194639_8e5002e5/kernels_out/conv-relu-maxpool_4096x1x32x32_to_4096x6x14x14/kernel.py"
+  },
+  {
+    "id": "conv-relu-maxpool_4096x6x14x14_to_4096x16x5x5",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_195049_384967",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_194639_8e5002e5/kernels_out/conv-relu-maxpool_4096x6x14x14_to_4096x16x5x5/kernel.py"
+  },
+  {
+    "id": "flatten_4096x16x5x5_to_4096x400",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_195047_607911",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_194639_8e5002e5/kernels_out/flatten_4096x16x5x5_to_4096x400/kernel.py"
+  },
+  {
+    "id": "linear-relu_4096x400_to_4096x120",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_195106_589379",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_194639_8e5002e5/kernels_out/linear-relu_4096x400_to_4096x120/kernel.py"
+  },
+  {
+    "id": "linear-relu_4096x120_to_4096x84",
+    "success": true,
+    "worker_id": 3,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_195427_706442",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_194639_8e5002e5/kernels_out/linear-relu_4096x120_to_4096x84/kernel.py"
+  },
+  {
+    "id": "linear_4096x84_to_4096x20",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_195531_288669",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_194639_8e5002e5/kernels_out/linear_4096x84_to_4096x20/kernel.py"
+  }
+]

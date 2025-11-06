@@ -1,0 +1,10 @@
+{
+  "level": "L2",
+  "name": "80_Gemm_Max_Subtract_GELU",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

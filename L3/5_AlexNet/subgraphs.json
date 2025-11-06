@@ -1,0 +1,554 @@
+[
+  {
+    "id": "sg_block1_conv_relu_pool_3x224x224_to_96x27x27",
+    "type": "conv_relu_pool",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 3,
+        "out_channels": 96,
+        "kernel_size": [
+          11,
+          11
+        ],
+        "stride": [
+          4,
+          4
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true,
+        "bn_fused": false
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "ceil_mode": false
+      }
+    ],
+    "input_shape": [
+      1024,
+      3,
+      224,
+      224
+    ],
+    "output_shape": [
+      1024,
+      96,
+      27,
+      27
+    ],
+    "weights_fused": {
+      "weight": [
+        96,
+        3,
+        11,
+        11
+      ],
+      "bias": [
+        96
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward block1",
+    "source": {
+      "module": "ConvReLUPool",
+      "code": "x = self.conv(x)\nx = self.relu(x)\nx = self.pool(x)"
+    }
+  },
+  {
+    "id": "sg_block2_conv_relu_pool_96x27x27_to_256x13x13",
+    "type": "conv_relu_pool",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 96,
+        "out_channels": 256,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true,
+        "bn_fused": false
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "ceil_mode": false
+      }
+    ],
+    "input_shape": [
+      1024,
+      96,
+      27,
+      27
+    ],
+    "output_shape": [
+      1024,
+      256,
+      13,
+      13
+    ],
+    "weights_fused": {
+      "weight": [
+        256,
+        96,
+        5,
+        5
+      ],
+      "bias": [
+        256
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward block2",
+    "source": {
+      "module": "ConvReLUPool",
+      "code": "x = self.conv(x)\nx = self.relu(x)\nx = self.pool(x)"
+    }
+  },
+  {
+    "id": "sg_block3_conv_relu_256x13x13_to_384x13x13",
+    "type": "conv_relu",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 256,
+        "out_channels": 384,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true,
+        "bn_fused": false
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      }
+    ],
+    "input_shape": [
+      1024,
+      256,
+      13,
+      13
+    ],
+    "output_shape": [
+      1024,
+      384,
+      13,
+      13
+    ],
+    "weights_fused": {
+      "weight": [
+        384,
+        256,
+        3,
+        3
+      ],
+      "bias": [
+        384
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward block3",
+    "source": {
+      "module": "ConvReLU",
+      "code": "x = self.conv(x)\nx = self.relu(x)"
+    }
+  },
+  {
+    "id": "sg_block4_conv_relu_384x13x13_to_384x13x13",
+    "type": "conv_relu",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 384,
+        "out_channels": 384,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true,
+        "bn_fused": false
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      }
+    ],
+    "input_shape": [
+      1024,
+      384,
+      13,
+      13
+    ],
+    "output_shape": [
+      1024,
+      384,
+      13,
+      13
+    ],
+    "weights_fused": {
+      "weight": [
+        384,
+        384,
+        3,
+        3
+      ],
+      "bias": [
+        384
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward block4",
+    "source": {
+      "module": "ConvReLU",
+      "code": "x = self.conv(x)\nx = self.relu(x)"
+    }
+  },
+  {
+    "id": "sg_block5_conv_relu_pool_384x13x13_to_256x6x6",
+    "type": "conv_relu_pool",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 384,
+        "out_channels": 256,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true,
+        "bn_fused": false
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "ceil_mode": false
+      }
+    ],
+    "input_shape": [
+      1024,
+      384,
+      13,
+      13
+    ],
+    "output_shape": [
+      1024,
+      256,
+      6,
+      6
+    ],
+    "weights_fused": {
+      "weight": [
+        256,
+        384,
+        3,
+        3
+      ],
+      "bias": [
+        256
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward block5",
+    "source": {
+      "module": "ConvReLUPool",
+      "code": "x = self.conv(x)\nx = self.relu(x)\nx = self.pool(x)"
+    }
+  },
+  {
+    "id": "sg_flatten_256x6x6_to_9216",
+    "type": "flatten",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "flatten",
+        "start_dim": 1
+      }
+    ],
+    "input_shape": [
+      1024,
+      256,
+      6,
+      6
+    ],
+    "output_shape": [
+      1024,
+      9216
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward flatten",
+    "source": {
+      "module": "Flatten",
+      "code": "return torch.flatten(x, self.start_dim)"
+    }
+  },
+  {
+    "id": "sg_block6_linear_relu_dropout_9216_to_4096",
+    "type": "linear_relu_dropout",
+    "data_layout": null,
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "linear",
+        "in_features": 9216,
+        "out_features": 4096,
+        "bias": true
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "dropout",
+        "p": 0.0,
+        "inplace": false
+      }
+    ],
+    "input_shape": [
+      1024,
+      9216
+    ],
+    "output_shape": [
+      1024,
+      4096
+    ],
+    "weights_fused": {
+      "weight": [
+        4096,
+        9216
+      ],
+      "bias": [
+        4096
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward block6",
+    "source": {
+      "module": "LinearReLUDropout",
+      "code": "x = self.fc(x)\nx = self.relu(x)\nx = self.dropout(x)"
+    }
+  },
+  {
+    "id": "sg_block7_linear_relu_dropout_4096_to_4096",
+    "type": "linear_relu_dropout",
+    "data_layout": null,
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "linear",
+        "in_features": 4096,
+        "out_features": 4096,
+        "bias": true
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "dropout",
+        "p": 0.0,
+        "inplace": false
+      }
+    ],
+    "input_shape": [
+      1024,
+      4096
+    ],
+    "output_shape": [
+      1024,
+      4096
+    ],
+    "weights_fused": {
+      "weight": [
+        4096,
+        4096
+      ],
+      "bias": [
+        4096
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward block7",
+    "source": {
+      "module": "LinearReLUDropout",
+      "code": "x = self.fc(x)\nx = self.relu(x)\nx = self.dropout(x)"
+    }
+  },
+  {
+    "id": "sg_classifier_linear_4096_to_1000",
+    "type": "linear",
+    "data_layout": null,
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "linear",
+        "in_features": 4096,
+        "out_features": 1000,
+        "bias": true
+      }
+    ],
+    "input_shape": [
+      1024,
+      4096
+    ],
+    "output_shape": [
+      1024,
+      1000
+    ],
+    "weights_fused": {
+      "weight": [
+        1000,
+        4096
+      ],
+      "bias": [
+        1000
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward classifier",
+    "source": {
+      "module": "LinearOnly",
+      "code": "return self.fc(x)"
+    }
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "level": "L2",
+  "name": "22_Matmul_Scale_ResidualAdd_Clamp_LogSumExp_Mish",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

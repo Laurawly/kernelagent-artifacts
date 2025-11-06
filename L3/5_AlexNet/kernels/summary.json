@@ -1,0 +1,74 @@
+[
+  {
+    "id": "sg_block1_conv_relu_pool_3x224x224_to_96x27x27",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_202002_335289",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_201536_9b8b4f98/kernels_out/sg_block1_conv_relu_pool_3x224x224_to_96x27x27/kernel.py"
+  },
+  {
+    "id": "sg_block2_conv_relu_pool_96x27x27_to_256x13x13",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_202122_113630",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_201536_9b8b4f98/kernels_out/sg_block2_conv_relu_pool_96x27x27_to_256x13x13/kernel.py"
+  },
+  {
+    "id": "sg_block3_conv_relu_256x13x13_to_384x13x13",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_201941_509144",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_201536_9b8b4f98/kernels_out/sg_block3_conv_relu_256x13x13_to_384x13x13/kernel.py"
+  },
+  {
+    "id": "sg_block4_conv_relu_384x13x13_to_384x13x13",
+    "success": true,
+    "worker_id": 3,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_201945_52622",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_201536_9b8b4f98/kernels_out/sg_block4_conv_relu_384x13x13_to_384x13x13/kernel.py"
+  },
+  {
+    "id": "sg_block5_conv_relu_pool_384x13x13_to_256x6x6",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_202545_739151",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_201536_9b8b4f98/kernels_out/sg_block5_conv_relu_pool_384x13x13_to_256x6x6/kernel.py"
+  },
+  {
+    "id": "sg_flatten_256x6x6_to_9216",
+    "success": true,
+    "worker_id": 0,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_202445_796959",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_201536_9b8b4f98/kernels_out/sg_flatten_256x6x6_to_9216/kernel.py"
+  },
+  {
+    "id": "sg_block6_linear_relu_dropout_9216_to_4096",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_202648_157148",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_201536_9b8b4f98/kernels_out/sg_block6_linear_relu_dropout_9216_to_4096/kernel.py"
+  },
+  {
+    "id": "sg_block7_linear_relu_dropout_4096_to_4096",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_202832_26846",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_201536_9b8b4f98/kernels_out/sg_block7_linear_relu_dropout_4096_to_4096/kernel.py"
+  },
+  {
+    "id": "sg_classifier_linear_4096_to_1000",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251030_202849_54879",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251030_201536_9b8b4f98/kernels_out/sg_classifier_linear_4096_to_1000/kernel.py"
+  }
+]

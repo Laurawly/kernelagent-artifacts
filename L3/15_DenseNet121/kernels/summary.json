@@ -1,0 +1,68 @@
+[
+  {
+    "id": "stem_conv7x7_s2_maxpool3x3_s2_3x224x224_to_64x56x56",
+    "success": true,
+    "worker_id": 3,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251029_211208_112155",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251029_210353_66f97b19/kernels_out/stem_conv7x7_s2_maxpool3x3_s2_3x224x224_to_64x56x56/kernel.py"
+  },
+  {
+    "id": "denseblock1_L6_GR32_64x56x56_to_256x56x56",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 4,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251029_211313_677204",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251029_210353_66f97b19/kernels_out/denseblock1_L6_GR32_64x56x56_to_256x56x56/kernel.py"
+  },
+  {
+    "id": "transition1_bn_relu_conv1x1_avgpool2_256x56x56_to_128x28x28",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251029_211257_391576",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251029_210353_66f97b19/kernels_out/transition1_bn_relu_conv1x1_avgpool2_256x56x56_to_128x28x28/kernel.py"
+  },
+  {
+    "id": "denseblock2_L12_GR32_128x28x28_to_512x28x28",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251029_211306_844631"
+  },
+  {
+    "id": "transition2_bn_relu_conv1x1_avgpool2_512x28x28_to_256x14x14",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 2,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251029_211956_883795",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251029_210353_66f97b19/kernels_out/transition2_bn_relu_conv1x1_avgpool2_512x28x28_to_256x14x14/kernel.py"
+  },
+  {
+    "id": "denseblock3_L24_GR32_256x14x14_to_1024x14x14",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 3,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251029_212114_785113",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251029_210353_66f97b19/kernels_out/denseblock3_L24_GR32_256x14x14_to_1024x14x14/kernel.py"
+  },
+  {
+    "id": "transition3_bn_relu_conv1x1_avgpool2_1024x14x14_to_512x7x7",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251029_213125_441417"
+  },
+  {
+    "id": "denseblock4_L16_GR32_512x7x7_to_1024x7x7",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 2,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251029_213528_765138",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251029_210353_66f97b19/kernels_out/denseblock4_L16_GR32_512x7x7_to_1024x7x7/kernel.py"
+  },
+  {
+    "id": "head_bn_relu_gap_flatten_fc_1024x7x7_to_10",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251029_214212_158000"
+  }
+]

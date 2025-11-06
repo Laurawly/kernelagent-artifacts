@@ -1,0 +1,13 @@
+{
+  "level": "L3",
+  "name": "1_MLP",
+  "files": {
+    "original": "original.py",
+    "kernel": "final_kernel.py"
+  },
+  "route": "kernelagent",
+  "verify": {
+    "passed": true,
+    "source": "result.json"
+  }
+}

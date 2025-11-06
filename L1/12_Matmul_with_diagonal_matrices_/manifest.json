@@ -1,0 +1,10 @@
+{
+  "level": "L1",
+  "name": "12_Matmul_with_diagonal_matrices_",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

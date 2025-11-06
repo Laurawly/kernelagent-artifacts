@@ -1,0 +1,10 @@
+{
+  "level": "L1",
+  "name": "46_Average_Pooling_3D",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

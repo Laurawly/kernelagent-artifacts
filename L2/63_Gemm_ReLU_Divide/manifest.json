@@ -1,0 +1,10 @@
+{
+  "level": "L2",
+  "name": "63_Gemm_ReLU_Divide",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

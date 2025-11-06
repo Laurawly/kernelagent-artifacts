@@ -1,0 +1,10 @@
+{
+  "level": "L1",
+  "name": "30_Softsign",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

@@ -1,0 +1,9 @@
+{
+  "example": "L2-examples/conv-bn-relu",
+  "route": "kernelagent",
+  "files": {
+    "original": "original.py",
+    "kernel": "triton_kernel.py",
+    "log": "test_output.log"
+  }
+}

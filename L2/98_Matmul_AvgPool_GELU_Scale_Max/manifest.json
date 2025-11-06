@@ -1,0 +1,10 @@
+{
+  "level": "L2",
+  "name": "98_Matmul_AvgPool_GELU_Scale_Max",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

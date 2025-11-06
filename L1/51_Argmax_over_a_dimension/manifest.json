@@ -1,0 +1,10 @@
+{
+  "level": "L1",
+  "name": "51_Argmax_over_a_dimension",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

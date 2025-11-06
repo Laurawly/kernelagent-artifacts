@@ -1,0 +1,62 @@
+[
+  {
+    "level": "L2",
+    "problem": "/home/leyuan/workplace/kernel_fuser/KernelAgent/external/KernelBench/KernelBench/level2/29_Matmul_Mish_Mish.py",
+    "route": "kernelagent",
+    "ok": true
+  },
+  {
+    "level": "L2",
+    "problem": "/home/leyuan/workplace/kernel_fuser/KernelAgent/external/KernelBench/KernelBench/level2/48_Conv3d_Scaling_Tanh_Multiply_Sigmoid.py",
+    "route": "kernelagent",
+    "ok": true
+  },
+  {
+    "level": "L2",
+    "problem": "/home/leyuan/workplace/kernel_fuser/KernelAgent/external/KernelBench/KernelBench/level2/53_Gemm_Scaling_Hardtanh_GELU.py",
+    "route": "kernelagent",
+    "ok": true
+  },
+  {
+    "level": "L2",
+    "problem": "/home/leyuan/workplace/kernel_fuser/KernelAgent/external/KernelBench/KernelBench/level2/63_Gemm_ReLU_Divide.py",
+    "route": "kernelagent",
+    "ok": true
+  },
+  {
+    "level": "L2",
+    "problem": "/home/leyuan/workplace/kernel_fuser/KernelAgent/external/KernelBench/KernelBench/level2/70_Gemm_Sigmoid_Scaling_ResidualAdd.py",
+    "route": "kernelagent",
+    "ok": true
+  },
+  {
+    "level": "L2",
+    "problem": "/home/leyuan/workplace/kernel_fuser/KernelAgent/external/KernelBench/KernelBench/level2/76_Gemm_Add_ReLU.py",
+    "route": "kernelagent",
+    "ok": true
+  },
+  {
+    "level": "L2",
+    "problem": "/home/leyuan/workplace/kernel_fuser/KernelAgent/external/KernelBench/KernelBench/level2/80_Gemm_Max_Subtract_GELU.py",
+    "route": "kernelagent",
+    "ok": true
+  },
+  {
+    "level": "L2",
+    "problem": "/home/leyuan/workplace/kernel_fuser/KernelAgent/external/KernelBench/KernelBench/level2/97_Matmul_BatchNorm_BiasAdd_Divide_Swish.py",
+    "route": "kernelagent",
+    "ok": true
+  },
+  {
+    "level": "L2",
+    "problem": "/home/leyuan/workplace/kernel_fuser/KernelAgent/external/KernelBench/KernelBench/level2/98_Matmul_AvgPool_GELU_Scale_Max.py",
+    "route": "kernelagent",
+    "ok": true
+  },
+  {
+    "level": "L2",
+    "problem": "/home/leyuan/workplace/kernel_fuser/KernelAgent/external/KernelBench/KernelBench/level2/9_Matmul_Subtract_Multiply_ReLU.py",
+    "route": "kernelagent",
+    "ok": true
+  }
+]

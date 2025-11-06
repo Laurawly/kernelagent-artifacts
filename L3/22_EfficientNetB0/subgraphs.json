@@ -1,0 +1,1900 @@
+[
+  {
+    "id": "stem_conv3x3_s2_3to32_224to112",
+    "type": "ConvBNActivation",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu"
+      }
+    ],
+    "input_shape": [
+      10,
+      3,
+      224,
+      224
+    ],
+    "output_shape": [
+      10,
+      32,
+      112,
+      112
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv_weight": [
+        32,
+        3,
+        3,
+        3
+      ],
+      "bn_weight": [
+        32
+      ],
+      "bn_bias": [
+        32
+      ],
+      "bn_running_mean": [
+        32
+      ],
+      "bn_running_var": [
+        32
+      ]
+    },
+    "count": 1,
+    "where": "Model.stem",
+    "source": {
+      "module": "Model",
+      "code": "self.stem = ConvBNActivation2d(3, 32, kernel_size=3, stride=2, padding=1, activation='relu')"
+    }
+  },
+  {
+    "id": "mbconv_e1_k3_s1_32to16_112",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 32,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      }
+    ],
+    "input_shape": [
+      10,
+      32,
+      112,
+      112
+    ],
+    "output_shape": [
+      10,
+      16,
+      112,
+      112
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "depthwise_conv_weight": [
+        32,
+        1,
+        3,
+        3
+      ],
+      "depthwise_bn_weight": [
+        32
+      ],
+      "depthwise_bn_bias": [
+        32
+      ],
+      "depthwise_bn_running_mean": [
+        32
+      ],
+      "depthwise_bn_running_var": [
+        32
+      ],
+      "project_conv_weight": [
+        16,
+        32,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        16
+      ],
+      "project_bn_bias": [
+        16
+      ],
+      "project_bn_running_mean": [
+        16
+      ],
+      "project_bn_running_var": [
+        16
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[0]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(32, 16, kernel_size=3, stride=1, expand_ratio=1),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k3_s2_16to24_112to56",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 96,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      }
+    ],
+    "input_shape": [
+      10,
+      16,
+      112,
+      112
+    ],
+    "output_shape": [
+      10,
+      24,
+      56,
+      56
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        96,
+        16,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        96
+      ],
+      "expand_bn_bias": [
+        96
+      ],
+      "expand_bn_running_mean": [
+        96
+      ],
+      "expand_bn_running_var": [
+        96
+      ],
+      "depthwise_conv_weight": [
+        96,
+        1,
+        3,
+        3
+      ],
+      "depthwise_bn_weight": [
+        96
+      ],
+      "depthwise_bn_bias": [
+        96
+      ],
+      "depthwise_bn_running_mean": [
+        96
+      ],
+      "depthwise_bn_running_var": [
+        96
+      ],
+      "project_conv_weight": [
+        24,
+        96,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        24
+      ],
+      "project_bn_bias": [
+        24
+      ],
+      "project_bn_running_mean": [
+        24
+      ],
+      "project_bn_running_var": [
+        24
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[1]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(16, 24, kernel_size=3, stride=2, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k3_s1_24to24_56_residual",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 144,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            10,
+            24,
+            56,
+            56
+          ],
+          [
+            10,
+            24,
+            56,
+            56
+          ]
+        ]
+      }
+    ],
+    "input_shape": [
+      10,
+      24,
+      56,
+      56
+    ],
+    "output_shape": [
+      10,
+      24,
+      56,
+      56
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        144,
+        24,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        144
+      ],
+      "expand_bn_bias": [
+        144
+      ],
+      "expand_bn_running_mean": [
+        144
+      ],
+      "expand_bn_running_var": [
+        144
+      ],
+      "depthwise_conv_weight": [
+        144,
+        1,
+        3,
+        3
+      ],
+      "depthwise_bn_weight": [
+        144
+      ],
+      "depthwise_bn_bias": [
+        144
+      ],
+      "depthwise_bn_running_mean": [
+        144
+      ],
+      "depthwise_bn_running_var": [
+        144
+      ],
+      "project_conv_weight": [
+        24,
+        144,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        24
+      ],
+      "project_bn_bias": [
+        24
+      ],
+      "project_bn_running_mean": [
+        24
+      ],
+      "project_bn_running_var": [
+        24
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[2]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(24, 24, kernel_size=3, stride=1, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k5_s2_24to40_56to28",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "groups": 144,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      }
+    ],
+    "input_shape": [
+      10,
+      24,
+      56,
+      56
+    ],
+    "output_shape": [
+      10,
+      40,
+      28,
+      28
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        144,
+        24,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        144
+      ],
+      "expand_bn_bias": [
+        144
+      ],
+      "expand_bn_running_mean": [
+        144
+      ],
+      "expand_bn_running_var": [
+        144
+      ],
+      "depthwise_conv_weight": [
+        144,
+        1,
+        5,
+        5
+      ],
+      "depthwise_bn_weight": [
+        144
+      ],
+      "depthwise_bn_bias": [
+        144
+      ],
+      "depthwise_bn_running_mean": [
+        144
+      ],
+      "depthwise_bn_running_var": [
+        144
+      ],
+      "project_conv_weight": [
+        40,
+        144,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        40
+      ],
+      "project_bn_bias": [
+        40
+      ],
+      "project_bn_running_mean": [
+        40
+      ],
+      "project_bn_running_var": [
+        40
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[3]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(24, 40, kernel_size=5, stride=2, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k5_s1_40to40_28_residual",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "groups": 240,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            10,
+            40,
+            28,
+            28
+          ],
+          [
+            10,
+            40,
+            28,
+            28
+          ]
+        ]
+      }
+    ],
+    "input_shape": [
+      10,
+      40,
+      28,
+      28
+    ],
+    "output_shape": [
+      10,
+      40,
+      28,
+      28
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        240,
+        40,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        240
+      ],
+      "expand_bn_bias": [
+        240
+      ],
+      "expand_bn_running_mean": [
+        240
+      ],
+      "expand_bn_running_var": [
+        240
+      ],
+      "depthwise_conv_weight": [
+        240,
+        1,
+        5,
+        5
+      ],
+      "depthwise_bn_weight": [
+        240
+      ],
+      "depthwise_bn_bias": [
+        240
+      ],
+      "depthwise_bn_running_mean": [
+        240
+      ],
+      "depthwise_bn_running_var": [
+        240
+      ],
+      "project_conv_weight": [
+        40,
+        240,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        40
+      ],
+      "project_bn_bias": [
+        40
+      ],
+      "project_bn_running_mean": [
+        40
+      ],
+      "project_bn_running_var": [
+        40
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[4]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(40, 40, kernel_size=5, stride=1, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k3_s2_40to80_28to14",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 240,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      }
+    ],
+    "input_shape": [
+      10,
+      40,
+      28,
+      28
+    ],
+    "output_shape": [
+      10,
+      80,
+      14,
+      14
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        240,
+        40,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        240
+      ],
+      "expand_bn_bias": [
+        240
+      ],
+      "expand_bn_running_mean": [
+        240
+      ],
+      "expand_bn_running_var": [
+        240
+      ],
+      "depthwise_conv_weight": [
+        240,
+        1,
+        3,
+        3
+      ],
+      "depthwise_bn_weight": [
+        240
+      ],
+      "depthwise_bn_bias": [
+        240
+      ],
+      "depthwise_bn_running_mean": [
+        240
+      ],
+      "depthwise_bn_running_var": [
+        240
+      ],
+      "project_conv_weight": [
+        80,
+        240,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        80
+      ],
+      "project_bn_bias": [
+        80
+      ],
+      "project_bn_running_mean": [
+        80
+      ],
+      "project_bn_running_var": [
+        80
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[5]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(40, 80, kernel_size=3, stride=2, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k3_s1_80to80_14_residual",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 480,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            10,
+            80,
+            14,
+            14
+          ],
+          [
+            10,
+            80,
+            14,
+            14
+          ]
+        ]
+      }
+    ],
+    "input_shape": [
+      10,
+      80,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      80,
+      14,
+      14
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        480,
+        80,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        480
+      ],
+      "expand_bn_bias": [
+        480
+      ],
+      "expand_bn_running_mean": [
+        480
+      ],
+      "expand_bn_running_var": [
+        480
+      ],
+      "depthwise_conv_weight": [
+        480,
+        1,
+        3,
+        3
+      ],
+      "depthwise_bn_weight": [
+        480
+      ],
+      "depthwise_bn_bias": [
+        480
+      ],
+      "depthwise_bn_running_mean": [
+        480
+      ],
+      "depthwise_bn_running_var": [
+        480
+      ],
+      "project_conv_weight": [
+        80,
+        480,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        80
+      ],
+      "project_bn_bias": [
+        80
+      ],
+      "project_bn_running_mean": [
+        80
+      ],
+      "project_bn_running_var": [
+        80
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[6]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(80, 80, kernel_size=3, stride=1, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k5_s1_80to112_14",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "groups": 480,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      }
+    ],
+    "input_shape": [
+      10,
+      80,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      112,
+      14,
+      14
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        480,
+        80,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        480
+      ],
+      "expand_bn_bias": [
+        480
+      ],
+      "expand_bn_running_mean": [
+        480
+      ],
+      "expand_bn_running_var": [
+        480
+      ],
+      "depthwise_conv_weight": [
+        480,
+        1,
+        5,
+        5
+      ],
+      "depthwise_bn_weight": [
+        480
+      ],
+      "depthwise_bn_bias": [
+        480
+      ],
+      "depthwise_bn_running_mean": [
+        480
+      ],
+      "depthwise_bn_running_var": [
+        480
+      ],
+      "project_conv_weight": [
+        112,
+        480,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        112
+      ],
+      "project_bn_bias": [
+        112
+      ],
+      "project_bn_running_mean": [
+        112
+      ],
+      "project_bn_running_var": [
+        112
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[7]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(80, 112, kernel_size=5, stride=1, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k5_s1_112to112_14_residual",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "groups": 672,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            10,
+            112,
+            14,
+            14
+          ],
+          [
+            10,
+            112,
+            14,
+            14
+          ]
+        ]
+      }
+    ],
+    "input_shape": [
+      10,
+      112,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      112,
+      14,
+      14
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        672,
+        112,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        672
+      ],
+      "expand_bn_bias": [
+        672
+      ],
+      "expand_bn_running_mean": [
+        672
+      ],
+      "expand_bn_running_var": [
+        672
+      ],
+      "depthwise_conv_weight": [
+        672,
+        1,
+        5,
+        5
+      ],
+      "depthwise_bn_weight": [
+        672
+      ],
+      "depthwise_bn_bias": [
+        672
+      ],
+      "depthwise_bn_running_mean": [
+        672
+      ],
+      "depthwise_bn_running_var": [
+        672
+      ],
+      "project_conv_weight": [
+        112,
+        672,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        112
+      ],
+      "project_bn_bias": [
+        112
+      ],
+      "project_bn_running_mean": [
+        112
+      ],
+      "project_bn_running_var": [
+        112
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[8]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(112, 112, kernel_size=5, stride=1, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k5_s2_112to192_14to7",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "groups": 672,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      }
+    ],
+    "input_shape": [
+      10,
+      112,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      192,
+      7,
+      7
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        672,
+        112,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        672
+      ],
+      "expand_bn_bias": [
+        672
+      ],
+      "expand_bn_running_mean": [
+        672
+      ],
+      "expand_bn_running_var": [
+        672
+      ],
+      "depthwise_conv_weight": [
+        672,
+        1,
+        5,
+        5
+      ],
+      "depthwise_bn_weight": [
+        672
+      ],
+      "depthwise_bn_bias": [
+        672
+      ],
+      "depthwise_bn_running_mean": [
+        672
+      ],
+      "depthwise_bn_running_var": [
+        672
+      ],
+      "project_conv_weight": [
+        192,
+        672,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        192
+      ],
+      "project_bn_bias": [
+        192
+      ],
+      "project_bn_running_mean": [
+        192
+      ],
+      "project_bn_running_var": [
+        192
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[9]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(112, 192, kernel_size=5, stride=2, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k5_s1_192to192_7_residual",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "groups": 1152,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            10,
+            192,
+            7,
+            7
+          ],
+          [
+            10,
+            192,
+            7,
+            7
+          ]
+        ]
+      }
+    ],
+    "input_shape": [
+      10,
+      192,
+      7,
+      7
+    ],
+    "output_shape": [
+      10,
+      192,
+      7,
+      7
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        1152,
+        192,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        1152
+      ],
+      "expand_bn_bias": [
+        1152
+      ],
+      "expand_bn_running_mean": [
+        1152
+      ],
+      "expand_bn_running_var": [
+        1152
+      ],
+      "depthwise_conv_weight": [
+        1152,
+        1,
+        5,
+        5
+      ],
+      "depthwise_bn_weight": [
+        1152
+      ],
+      "depthwise_bn_bias": [
+        1152
+      ],
+      "depthwise_bn_running_mean": [
+        1152
+      ],
+      "depthwise_bn_running_var": [
+        1152
+      ],
+      "project_conv_weight": [
+        192,
+        1152,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        192
+      ],
+      "project_bn_bias": [
+        192
+      ],
+      "project_bn_running_mean": [
+        192
+      ],
+      "project_bn_running_var": [
+        192
+      ]
+    },
+    "count": 2,
+    "where": "Model.blocks[10], Model.blocks[11]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(192, 192, kernel_size=5, stride=1, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "mbconv_e6_k3_s1_192to320_7",
+    "type": "MBConv",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1152,
+        "bn_fused": true,
+        "activation": "relu6"
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": null
+      }
+    ],
+    "input_shape": [
+      10,
+      192,
+      7,
+      7
+    ],
+    "output_shape": [
+      10,
+      320,
+      7,
+      7
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "expand_conv_weight": [
+        1152,
+        192,
+        1,
+        1
+      ],
+      "expand_bn_weight": [
+        1152
+      ],
+      "expand_bn_bias": [
+        1152
+      ],
+      "expand_bn_running_mean": [
+        1152
+      ],
+      "expand_bn_running_var": [
+        1152
+      ],
+      "depthwise_conv_weight": [
+        1152,
+        1,
+        3,
+        3
+      ],
+      "depthwise_bn_weight": [
+        1152
+      ],
+      "depthwise_bn_bias": [
+        1152
+      ],
+      "depthwise_bn_running_mean": [
+        1152
+      ],
+      "depthwise_bn_running_var": [
+        1152
+      ],
+      "project_conv_weight": [
+        320,
+        1152,
+        1,
+        1
+      ],
+      "project_bn_weight": [
+        320
+      ],
+      "project_bn_bias": [
+        320
+      ],
+      "project_bn_running_mean": [
+        320
+      ],
+      "project_bn_running_var": [
+        320
+      ]
+    },
+    "count": 1,
+    "where": "Model.blocks[12]",
+    "source": {
+      "module": "Model",
+      "code": "FusedMBConv(192, 320, kernel_size=3, stride=1, expand_ratio=6),"
+    }
+  },
+  {
+    "id": "head_conv1x1_s1_320to1280_7",
+    "type": "ConvBNActivation",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bn_fused": true,
+        "activation": "relu"
+      }
+    ],
+    "input_shape": [
+      10,
+      320,
+      7,
+      7
+    ],
+    "output_shape": [
+      10,
+      1280,
+      7,
+      7
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv_weight": [
+        1280,
+        320,
+        1,
+        1
+      ],
+      "bn_weight": [
+        1280
+      ],
+      "bn_bias": [
+        1280
+      ],
+      "bn_running_mean": [
+        1280
+      ],
+      "bn_running_var": [
+        1280
+      ]
+    },
+    "count": 1,
+    "where": "Model.head",
+    "source": {
+      "module": "Model",
+      "code": "self.head = ConvBNActivation2d(320, 1280, kernel_size=1, stride=1, padding=0, activation='relu')"
+    }
+  },
+  {
+    "id": "gap_flatten_1280_7x7_to_1280",
+    "type": "GlobalAvgPoolFlatten",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "adaptive_avg_pool2d",
+        "output_size": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "flatten",
+        "start_dim": 1
+      }
+    ],
+    "input_shape": [
+      10,
+      1280,
+      7,
+      7
+    ],
+    "output_shape": [
+      10,
+      1280
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.pool",
+    "source": {
+      "module": "Model",
+      "code": "self.pool = GlobalAvgPoolFlatten()"
+    }
+  },
+  {
+    "id": "linear_1280to1000",
+    "type": "Linear",
+    "data_layout": null,
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "linear",
+        "in_features": 1280,
+        "out_features": 1000,
+        "bias": true
+      }
+    ],
+    "input_shape": [
+      10,
+      1280
+    ],
+    "output_shape": [
+      10,
+      1000
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "weight": [
+        1000,
+        1280
+      ],
+      "bias": [
+        1000
+      ]
+    },
+    "count": 1,
+    "where": "Model.fc",
+    "source": {
+      "module": "Model",
+      "code": "self.fc = nn.Linear(1280, num_classes)"
+    }
+  }
+]

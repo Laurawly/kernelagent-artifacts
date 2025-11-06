@@ -1,0 +1,10 @@
+{
+  "level": "L2",
+  "name": "97_Matmul_BatchNorm_BiasAdd_Divide_Swish",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

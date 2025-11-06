@@ -1,0 +1,9 @@
+{
+  "example": "L1-examples/matmul",
+  "route": "kernelagent",
+  "files": {
+    "original": "original.py",
+    "kernel": "generated_kernel.py",
+    "log": "test_output.log"
+  }
+}

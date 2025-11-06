@@ -1,0 +1,18 @@
+{
+  "level": "L3",
+  "name": "7_GoogleNetInceptionV1",
+  "files": {
+    "original": "original.py",
+    "fused_module": "fused.py",
+    "subgraphs": "subgraphs.json",
+    "kernels_summary": "kernels/summary.json",
+    "composed_kernel": "composed_kernel.py",
+    "composition_summary": "composition_summary.json"
+  },
+  "route": "fuser",
+  "verify": {
+    "passed": true,
+    "validator": "run_tests",
+    "source": "composition_summary.json"
+  }
+}

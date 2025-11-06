@@ -1,0 +1,10 @@
+{
+  "level": "L2",
+  "name": "53_Gemm_Scaling_Hardtanh_GELU",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

@@ -1,0 +1,10 @@
+{
+  "level": "L2",
+  "name": "29_Matmul_Mish_Mish",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

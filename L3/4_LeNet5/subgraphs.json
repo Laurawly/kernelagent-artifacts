@@ -1,0 +1,313 @@
+[
+  {
+    "id": "conv-relu-maxpool_4096x1x32x32_to_4096x6x14x14",
+    "type": "conv-relu-maxpool",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 1,
+        "out_channels": 6,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true,
+        "bn_fused": false
+      },
+      {
+        "op": "relu"
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          2,
+          2
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          0,
+          0
+        ]
+      }
+    ],
+    "input_shape": [
+      4096,
+      1,
+      32,
+      32
+    ],
+    "output_shape": [
+      4096,
+      6,
+      14,
+      14
+    ],
+    "weights_fused": {
+      "conv.weight": [
+        6,
+        1,
+        5,
+        5
+      ],
+      "conv.bias": [
+        6
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward conv_block1",
+    "source": {
+      "module": "FusedConvReLUPool",
+      "code": "x = self.conv(x)\nx = F.relu(x)\nx = F.max_pool2d(x, kernel_size=self.pool_kernel, stride=self.pool_stride)"
+    }
+  },
+  {
+    "id": "conv-relu-maxpool_4096x6x14x14_to_4096x16x5x5",
+    "type": "conv-relu-maxpool",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 6,
+        "out_channels": 16,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true,
+        "bn_fused": false
+      },
+      {
+        "op": "relu"
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          2,
+          2
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          0,
+          0
+        ]
+      }
+    ],
+    "input_shape": [
+      4096,
+      6,
+      14,
+      14
+    ],
+    "output_shape": [
+      4096,
+      16,
+      5,
+      5
+    ],
+    "weights_fused": {
+      "conv.weight": [
+        16,
+        6,
+        5,
+        5
+      ],
+      "conv.bias": [
+        16
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward conv_block2",
+    "source": {
+      "module": "FusedConvReLUPool",
+      "code": "x = self.conv(x)\nx = F.relu(x)\nx = F.max_pool2d(x, kernel_size=self.pool_kernel, stride=self.pool_stride)"
+    }
+  },
+  {
+    "id": "flatten_4096x16x5x5_to_4096x400",
+    "type": "flatten",
+    "data_layout": null,
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "flatten",
+        "start_dim": 1,
+        "end_dim": -1
+      }
+    ],
+    "input_shape": [
+      4096,
+      16,
+      5,
+      5
+    ],
+    "output_shape": [
+      4096,
+      400
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward flatten",
+    "source": {
+      "module": "Flatten",
+      "code": "return x.view(x.size(0), -1)"
+    }
+  },
+  {
+    "id": "linear-relu_4096x400_to_4096x120",
+    "type": "linear-relu",
+    "data_layout": null,
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "linear",
+        "in_features": 400,
+        "out_features": 120,
+        "bias": true
+      },
+      {
+        "op": "relu"
+      }
+    ],
+    "input_shape": [
+      4096,
+      400
+    ],
+    "output_shape": [
+      4096,
+      120
+    ],
+    "weights_fused": {
+      "linear.weight": [
+        120,
+        400
+      ],
+      "linear.bias": [
+        120
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward fc_block1",
+    "source": {
+      "module": "FusedLinearReLU",
+      "code": "return F.relu(self.linear(x))"
+    }
+  },
+  {
+    "id": "linear-relu_4096x120_to_4096x84",
+    "type": "linear-relu",
+    "data_layout": null,
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "linear",
+        "in_features": 120,
+        "out_features": 84,
+        "bias": true
+      },
+      {
+        "op": "relu"
+      }
+    ],
+    "input_shape": [
+      4096,
+      120
+    ],
+    "output_shape": [
+      4096,
+      84
+    ],
+    "weights_fused": {
+      "linear.weight": [
+        84,
+        120
+      ],
+      "linear.bias": [
+        84
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward fc_block2",
+    "source": {
+      "module": "FusedLinearReLU",
+      "code": "return F.relu(self.linear(x))"
+    }
+  },
+  {
+    "id": "linear_4096x84_to_4096x20",
+    "type": "linear",
+    "data_layout": null,
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "linear",
+        "in_features": 84,
+        "out_features": 20,
+        "bias": true
+      }
+    ],
+    "input_shape": [
+      4096,
+      84
+    ],
+    "output_shape": [
+      4096,
+      20
+    ],
+    "weights_fused": {
+      "linear.weight": [
+        20,
+        84
+      ],
+      "linear.bias": [
+        20
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward classifier",
+    "source": {
+      "module": "OutputLinear",
+      "code": "return self.linear(x)"
+    }
+  }
+]

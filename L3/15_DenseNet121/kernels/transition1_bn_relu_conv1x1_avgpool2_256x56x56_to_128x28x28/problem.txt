@@ -1,0 +1,104 @@
+Implement a Triton kernel that computes the following subgraph end-to-end.
+
+        Subgraph ID: transition1_bn_relu_conv1x1_avgpool2_256x56x56_to_128x28x28
+        Type: transition
+        Data layout: NCHW
+        DType: float32
+
+        Shapes:
+        - input: [10, 256, 56, 56]
+
+        - output: [10, 128, 28, 28]
+
+        Weights (fused): null
+        Weights (original): {
+  "bn.weight": [
+    256
+  ],
+  "bn.bias": [
+    256
+  ],
+  "bn.running_mean": [
+    256
+  ],
+  "bn.running_var": [
+    256
+  ],
+  "conv.weight": [
+    128,
+    256,
+    1,
+    1
+  ]
+}
+
+        Operations in order (with parameters):
+        [
+  {
+    "op": "batchnorm2d",
+    "num_features": 256,
+    "eps": 1e-05,
+    "momentum": 0.1,
+    "affine": true,
+    "track_running_stats": true
+  },
+  {
+    "op": "relu",
+    "inplace": true
+  },
+  {
+    "op": "conv2d",
+    "in_channels": 256,
+    "out_channels": 128,
+    "kernel_size": 1,
+    "stride": 1,
+    "padding": 0,
+    "dilation": 1,
+    "groups": 1,
+    "bias": false
+  },
+  {
+    "op": "avgpool2d",
+    "kernel_size": 2,
+    "stride": 2,
+    "padding": 0
+  }
+]
+
+        Requirements:
+        - Return a complete Python file with a @triton.jit kernel and a wrapper function named kernel_function(...).
+        - kernel_function must accept input tensor(s) and any required weights/bias parameters (match shapes above).
+        - Implement the exact semantics of the listed ops in the given order for the provided shapes.
+        - Use NCHW layout and float32 dtype semantics.
+        - The test will import kernel_function and compare to the reference implementation below.
+
+        Test tolerance policy (enforced in generated tests):
+        - Default tolerances: rtol=1e-3, atol=1e-3.
+        - Absolute cap: NEVER exceed rtol=1e-2 or atol=1e-2 in torch.allclose.
+        - For float16/bfloat16 inputs: use rtol=1e-2, atol=1e-2 at most (do not go higher).
+        - Include a one-line comment if you relax from default; never exceed the cap.
+
+        Reference PyTorch implementation (exact semantics to match):
+
+```python
+import torch
+import torch.nn.functional as F
+
+def reference(x):
+
+    # TODO: op 'batchnorm2d' not explicitly handled; update generator if needed
+    x = torch.relu(x)
+    x = F.conv2d(x, conv_weight, stride=(1,), padding=(0,), dilation=(1,), groups=1)
+    # TODO: op 'avgpool2d' not explicitly handled; update generator if needed
+    return x
+```
+
+Original source snippet (FusedTransition):
+```python
+def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.bn(x)
+        x = self.relu(x)
+        x = self.conv(x)
+        x = self.pool(x)
+        return x
+```

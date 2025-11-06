@@ -1,0 +1,2537 @@
+[
+  {
+    "id": "stem_conv7x7_relu_maxpool3x3_s2",
+    "type": "fused_conv_relu_pool",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 3,
+        "out_channels": 64,
+        "kernel_size": [
+          7,
+          7
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          3,
+          3
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true,
+        "bn_fused": false
+      },
+      {
+        "op": "relu"
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      }
+    ],
+    "input_shape": [
+      10,
+      3,
+      224,
+      224
+    ],
+    "output_shape": [
+      10,
+      64,
+      56,
+      56
+    ],
+    "weights_fused": {
+      "conv.weight": [
+        64,
+        3,
+        7,
+        7
+      ],
+      "conv.bias": [
+        64
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward stem1",
+    "source": {
+      "module": "ConvReLUPool",
+      "code": "def forward(self, x):\n    x = F.relu(self.conv(x))\n    x = self.pool(x)\n    return x"
+    }
+  },
+  {
+    "id": "conv2_1x1_relu",
+    "type": "fused_conv_relu",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 64,
+        "out_channels": 64,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true,
+        "bn_fused": false
+      },
+      {
+        "op": "relu"
+      }
+    ],
+    "input_shape": [
+      10,
+      64,
+      56,
+      56
+    ],
+    "output_shape": [
+      10,
+      64,
+      56,
+      56
+    ],
+    "weights_fused": {
+      "conv.weight": [
+        64,
+        64,
+        1,
+        1
+      ],
+      "conv.bias": [
+        64
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward conv2",
+    "source": {
+      "module": "ConvReLU",
+      "code": "def forward(self, x):\n    return F.relu(self.conv(x))"
+    }
+  },
+  {
+    "id": "conv3_3x3_relu_maxpool3x3_s2",
+    "type": "fused_conv_relu_pool",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 64,
+        "out_channels": 192,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true,
+        "bn_fused": false
+      },
+      {
+        "op": "relu"
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      }
+    ],
+    "input_shape": [
+      10,
+      64,
+      56,
+      56
+    ],
+    "output_shape": [
+      10,
+      192,
+      28,
+      28
+    ],
+    "weights_fused": {
+      "conv.weight": [
+        192,
+        64,
+        3,
+        3
+      ],
+      "conv.bias": [
+        192
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward conv3+maxpool2",
+    "source": {
+      "module": "ConvReLUPool",
+      "code": "def forward(self, x):\n    x = F.relu(self.conv(x))\n    x = self.pool(x)\n    return x"
+    }
+  },
+  {
+    "id": "inception3a_192_->_256_28x28",
+    "type": "inception_block",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 192,
+        "out_channels": 64,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 192,
+        "out_channels": 96,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 96,
+        "out_channels": 128,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 192,
+        "out_channels": 16,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 16,
+        "out_channels": 32,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 192,
+        "out_channels": 32,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "num_inputs": 4
+      }
+    ],
+    "input_shape": [
+      10,
+      192,
+      28,
+      28
+    ],
+    "output_shape": [
+      10,
+      256,
+      28,
+      28
+    ],
+    "weights_fused": {
+      "b1_conv1x1.weight": [
+        64,
+        192,
+        1,
+        1
+      ],
+      "b1_conv1x1.bias": [
+        64
+      ],
+      "b2_reduce.weight": [
+        96,
+        192,
+        1,
+        1
+      ],
+      "b2_reduce.bias": [
+        96
+      ],
+      "b2_conv3x3.weight": [
+        128,
+        96,
+        3,
+        3
+      ],
+      "b2_conv3x3.bias": [
+        128
+      ],
+      "b3_reduce.weight": [
+        16,
+        192,
+        1,
+        1
+      ],
+      "b3_reduce.bias": [
+        16
+      ],
+      "b3_conv5x5.weight": [
+        32,
+        16,
+        5,
+        5
+      ],
+      "b3_conv5x5.bias": [
+        32
+      ],
+      "b4_proj.weight": [
+        32,
+        192,
+        1,
+        1
+      ],
+      "b4_proj.bias": [
+        32
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward inception3a",
+    "source": {
+      "module": "InceptionBlock",
+      "code": "def forward(self, x):\n    b1 = self.branch1x1(x)\n    b2 = self.branch3x3(x)\n    b3 = self.branch5x5(x)\n    b4 = self.branch_pool(x)\n    return torch.cat([b1, b2, b3, b4], dim=1)"
+    }
+  },
+  {
+    "id": "inception3b_256_->_480_28x28",
+    "type": "inception_block",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 256,
+        "out_channels": 128,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 256,
+        "out_channels": 128,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 128,
+        "out_channels": 192,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 256,
+        "out_channels": 32,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 32,
+        "out_channels": 96,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 256,
+        "out_channels": 64,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "num_inputs": 4
+      }
+    ],
+    "input_shape": [
+      10,
+      256,
+      28,
+      28
+    ],
+    "output_shape": [
+      10,
+      480,
+      28,
+      28
+    ],
+    "weights_fused": {
+      "b1_conv1x1.weight": [
+        128,
+        256,
+        1,
+        1
+      ],
+      "b1_conv1x1.bias": [
+        128
+      ],
+      "b2_reduce.weight": [
+        128,
+        256,
+        1,
+        1
+      ],
+      "b2_reduce.bias": [
+        128
+      ],
+      "b2_conv3x3.weight": [
+        192,
+        128,
+        3,
+        3
+      ],
+      "b2_conv3x3.bias": [
+        192
+      ],
+      "b3_reduce.weight": [
+        32,
+        256,
+        1,
+        1
+      ],
+      "b3_reduce.bias": [
+        32
+      ],
+      "b3_conv5x5.weight": [
+        96,
+        32,
+        5,
+        5
+      ],
+      "b3_conv5x5.bias": [
+        96
+      ],
+      "b4_proj.weight": [
+        64,
+        256,
+        1,
+        1
+      ],
+      "b4_proj.bias": [
+        64
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward inception3b",
+    "source": {
+      "module": "InceptionBlock",
+      "code": "def forward(self, x):\n    b1 = self.branch1x1(x)\n    b2 = self.branch3x3(x)\n    b3 = self.branch5x5(x)\n    b4 = self.branch_pool(x)\n    return torch.cat([b1, b2, b3, b4], dim=1)"
+    }
+  },
+  {
+    "id": "maxpool3_3x3_s2_480_28x28_to_480_14x14",
+    "type": "pool",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      }
+    ],
+    "input_shape": [
+      10,
+      480,
+      28,
+      28
+    ],
+    "output_shape": [
+      10,
+      480,
+      14,
+      14
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward maxpool3",
+    "source": {
+      "module": "torch.nn.MaxPool2d",
+      "code": "self.maxpool3 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)"
+    }
+  },
+  {
+    "id": "inception4a_480_->_512_14x14",
+    "type": "inception_block",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 480,
+        "out_channels": 192,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 480,
+        "out_channels": 96,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 96,
+        "out_channels": 208,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 480,
+        "out_channels": 16,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 16,
+        "out_channels": 48,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 480,
+        "out_channels": 64,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "num_inputs": 4
+      }
+    ],
+    "input_shape": [
+      10,
+      480,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      512,
+      14,
+      14
+    ],
+    "weights_fused": {
+      "b1_conv1x1.weight": [
+        192,
+        480,
+        1,
+        1
+      ],
+      "b1_conv1x1.bias": [
+        192
+      ],
+      "b2_reduce.weight": [
+        96,
+        480,
+        1,
+        1
+      ],
+      "b2_reduce.bias": [
+        96
+      ],
+      "b2_conv3x3.weight": [
+        208,
+        96,
+        3,
+        3
+      ],
+      "b2_conv3x3.bias": [
+        208
+      ],
+      "b3_reduce.weight": [
+        16,
+        480,
+        1,
+        1
+      ],
+      "b3_reduce.bias": [
+        16
+      ],
+      "b3_conv5x5.weight": [
+        48,
+        16,
+        5,
+        5
+      ],
+      "b3_conv5x5.bias": [
+        48
+      ],
+      "b4_proj.weight": [
+        64,
+        480,
+        1,
+        1
+      ],
+      "b4_proj.bias": [
+        64
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward inception4a",
+    "source": {
+      "module": "InceptionBlock",
+      "code": "def forward(self, x):\n    b1 = self.branch1x1(x)\n    b2 = self.branch3x3(x)\n    b3 = self.branch5x5(x)\n    b4 = self.branch_pool(x)\n    return torch.cat([b1, b2, b3, b4], dim=1)"
+    }
+  },
+  {
+    "id": "inception4b_512_->_512_14x14",
+    "type": "inception_block",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 160,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 112,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 112,
+        "out_channels": 224,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 24,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 24,
+        "out_channels": 64,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 64,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "num_inputs": 4
+      }
+    ],
+    "input_shape": [
+      10,
+      512,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      512,
+      14,
+      14
+    ],
+    "weights_fused": {
+      "b1_conv1x1.weight": [
+        160,
+        512,
+        1,
+        1
+      ],
+      "b1_conv1x1.bias": [
+        160
+      ],
+      "b2_reduce.weight": [
+        112,
+        512,
+        1,
+        1
+      ],
+      "b2_reduce.bias": [
+        112
+      ],
+      "b2_conv3x3.weight": [
+        224,
+        112,
+        3,
+        3
+      ],
+      "b2_conv3x3.bias": [
+        224
+      ],
+      "b3_reduce.weight": [
+        24,
+        512,
+        1,
+        1
+      ],
+      "b3_reduce.bias": [
+        24
+      ],
+      "b3_conv5x5.weight": [
+        64,
+        24,
+        5,
+        5
+      ],
+      "b3_conv5x5.bias": [
+        64
+      ],
+      "b4_proj.weight": [
+        64,
+        512,
+        1,
+        1
+      ],
+      "b4_proj.bias": [
+        64
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward inception4b",
+    "source": {
+      "module": "InceptionBlock",
+      "code": "def forward(self, x):\n    b1 = self.branch1x1(x)\n    b2 = self.branch3x3(x)\n    b3 = self.branch5x5(x)\n    b4 = self.branch_pool(x)\n    return torch.cat([b1, b2, b3, b4], dim=1)"
+    }
+  },
+  {
+    "id": "inception4c_512_->_512_14x14",
+    "type": "inception_block",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 128,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 128,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 128,
+        "out_channels": 256,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 24,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 24,
+        "out_channels": 64,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 64,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "num_inputs": 4
+      }
+    ],
+    "input_shape": [
+      10,
+      512,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      512,
+      14,
+      14
+    ],
+    "weights_fused": {
+      "b1_conv1x1.weight": [
+        128,
+        512,
+        1,
+        1
+      ],
+      "b1_conv1x1.bias": [
+        128
+      ],
+      "b2_reduce.weight": [
+        128,
+        512,
+        1,
+        1
+      ],
+      "b2_reduce.bias": [
+        128
+      ],
+      "b2_conv3x3.weight": [
+        256,
+        128,
+        3,
+        3
+      ],
+      "b2_conv3x3.bias": [
+        256
+      ],
+      "b3_reduce.weight": [
+        24,
+        512,
+        1,
+        1
+      ],
+      "b3_reduce.bias": [
+        24
+      ],
+      "b3_conv5x5.weight": [
+        64,
+        24,
+        5,
+        5
+      ],
+      "b3_conv5x5.bias": [
+        64
+      ],
+      "b4_proj.weight": [
+        64,
+        512,
+        1,
+        1
+      ],
+      "b4_proj.bias": [
+        64
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward inception4c",
+    "source": {
+      "module": "InceptionBlock",
+      "code": "def forward(self, x):\n    b1 = self.branch1x1(x)\n    b2 = self.branch3x3(x)\n    b3 = self.branch5x5(x)\n    b4 = self.branch_pool(x)\n    return torch.cat([b1, b2, b3, b4], dim=1)"
+    }
+  },
+  {
+    "id": "inception4d_512_->_528_14x14",
+    "type": "inception_block",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 112,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 144,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 144,
+        "out_channels": 288,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 32,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 32,
+        "out_channels": 64,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 64,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "num_inputs": 4
+      }
+    ],
+    "input_shape": [
+      10,
+      512,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      528,
+      14,
+      14
+    ],
+    "weights_fused": {
+      "b1_conv1x1.weight": [
+        112,
+        512,
+        1,
+        1
+      ],
+      "b1_conv1x1.bias": [
+        112
+      ],
+      "b2_reduce.weight": [
+        144,
+        512,
+        1,
+        1
+      ],
+      "b2_reduce.bias": [
+        144
+      ],
+      "b2_conv3x3.weight": [
+        288,
+        144,
+        3,
+        3
+      ],
+      "b2_conv3x3.bias": [
+        288
+      ],
+      "b3_reduce.weight": [
+        32,
+        512,
+        1,
+        1
+      ],
+      "b3_reduce.bias": [
+        32
+      ],
+      "b3_conv5x5.weight": [
+        64,
+        32,
+        5,
+        5
+      ],
+      "b3_conv5x5.bias": [
+        64
+      ],
+      "b4_proj.weight": [
+        64,
+        512,
+        1,
+        1
+      ],
+      "b4_proj.bias": [
+        64
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward inception4d",
+    "source": {
+      "module": "InceptionBlock",
+      "code": "def forward(self, x):\n    b1 = self.branch1x1(x)\n    b2 = self.branch3x3(x)\n    b3 = self.branch5x5(x)\n    b4 = self.branch_pool(x)\n    return torch.cat([b1, b2, b3, b4], dim=1)"
+    }
+  },
+  {
+    "id": "inception4e_528_->_832_14x14",
+    "type": "inception_block",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 528,
+        "out_channels": 256,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 528,
+        "out_channels": 160,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 160,
+        "out_channels": 320,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 528,
+        "out_channels": 32,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 32,
+        "out_channels": 128,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 528,
+        "out_channels": 128,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "num_inputs": 4
+      }
+    ],
+    "input_shape": [
+      10,
+      528,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      832,
+      14,
+      14
+    ],
+    "weights_fused": {
+      "b1_conv1x1.weight": [
+        256,
+        528,
+        1,
+        1
+      ],
+      "b1_conv1x1.bias": [
+        256
+      ],
+      "b2_reduce.weight": [
+        160,
+        528,
+        1,
+        1
+      ],
+      "b2_reduce.bias": [
+        160
+      ],
+      "b2_conv3x3.weight": [
+        320,
+        160,
+        3,
+        3
+      ],
+      "b2_conv3x3.bias": [
+        320
+      ],
+      "b3_reduce.weight": [
+        32,
+        528,
+        1,
+        1
+      ],
+      "b3_reduce.bias": [
+        32
+      ],
+      "b3_conv5x5.weight": [
+        128,
+        32,
+        5,
+        5
+      ],
+      "b3_conv5x5.bias": [
+        128
+      ],
+      "b4_proj.weight": [
+        128,
+        528,
+        1,
+        1
+      ],
+      "b4_proj.bias": [
+        128
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward inception4e",
+    "source": {
+      "module": "InceptionBlock",
+      "code": "def forward(self, x):\n    b1 = self.branch1x1(x)\n    b2 = self.branch3x3(x)\n    b3 = self.branch5x5(x)\n    b4 = self.branch_pool(x)\n    return torch.cat([b1, b2, b3, b4], dim=1)"
+    }
+  },
+  {
+    "id": "maxpool4_3x3_s2_832_14x14_to_832_7x7",
+    "type": "pool",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      }
+    ],
+    "input_shape": [
+      10,
+      832,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      832,
+      7,
+      7
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward maxpool4",
+    "source": {
+      "module": "torch.nn.MaxPool2d",
+      "code": "self.maxpool4 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)"
+    }
+  },
+  {
+    "id": "inception5a_832_->_832_7x7",
+    "type": "inception_block",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 832,
+        "out_channels": 256,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 832,
+        "out_channels": 160,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 160,
+        "out_channels": 320,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 832,
+        "out_channels": 32,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 32,
+        "out_channels": 128,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 832,
+        "out_channels": 128,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "num_inputs": 4
+      }
+    ],
+    "input_shape": [
+      10,
+      832,
+      7,
+      7
+    ],
+    "output_shape": [
+      10,
+      832,
+      7,
+      7
+    ],
+    "weights_fused": {
+      "b1_conv1x1.weight": [
+        256,
+        832,
+        1,
+        1
+      ],
+      "b1_conv1x1.bias": [
+        256
+      ],
+      "b2_reduce.weight": [
+        160,
+        832,
+        1,
+        1
+      ],
+      "b2_reduce.bias": [
+        160
+      ],
+      "b2_conv3x3.weight": [
+        320,
+        160,
+        3,
+        3
+      ],
+      "b2_conv3x3.bias": [
+        320
+      ],
+      "b3_reduce.weight": [
+        32,
+        832,
+        1,
+        1
+      ],
+      "b3_reduce.bias": [
+        32
+      ],
+      "b3_conv5x5.weight": [
+        128,
+        32,
+        5,
+        5
+      ],
+      "b3_conv5x5.bias": [
+        128
+      ],
+      "b4_proj.weight": [
+        128,
+        832,
+        1,
+        1
+      ],
+      "b4_proj.bias": [
+        128
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward inception5a",
+    "source": {
+      "module": "InceptionBlock",
+      "code": "def forward(self, x):\n    b1 = self.branch1x1(x)\n    b2 = self.branch3x3(x)\n    b3 = self.branch5x5(x)\n    b4 = self.branch_pool(x)\n    return torch.cat([b1, b2, b3, b4], dim=1)"
+    }
+  },
+  {
+    "id": "inception5b_832_->_1024_7x7",
+    "type": "inception_block",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 832,
+        "out_channels": 384,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 832,
+        "out_channels": 192,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 192,
+        "out_channels": 384,
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 832,
+        "out_channels": 48,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 48,
+        "out_channels": 128,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 832,
+        "out_channels": 128,
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": true
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "num_inputs": 4
+      }
+    ],
+    "input_shape": [
+      10,
+      832,
+      7,
+      7
+    ],
+    "output_shape": [
+      10,
+      1024,
+      7,
+      7
+    ],
+    "weights_fused": {
+      "b1_conv1x1.weight": [
+        384,
+        832,
+        1,
+        1
+      ],
+      "b1_conv1x1.bias": [
+        384
+      ],
+      "b2_reduce.weight": [
+        192,
+        832,
+        1,
+        1
+      ],
+      "b2_reduce.bias": [
+        192
+      ],
+      "b2_conv3x3.weight": [
+        384,
+        192,
+        3,
+        3
+      ],
+      "b2_conv3x3.bias": [
+        384
+      ],
+      "b3_reduce.weight": [
+        48,
+        832,
+        1,
+        1
+      ],
+      "b3_reduce.bias": [
+        48
+      ],
+      "b3_conv5x5.weight": [
+        128,
+        48,
+        5,
+        5
+      ],
+      "b3_conv5x5.bias": [
+        128
+      ],
+      "b4_proj.weight": [
+        128,
+        832,
+        1,
+        1
+      ],
+      "b4_proj.bias": [
+        128
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward inception5b",
+    "source": {
+      "module": "InceptionBlock",
+      "code": "def forward(self, x):\n    b1 = self.branch1x1(x)\n    b2 = self.branch3x3(x)\n    b3 = self.branch5x5(x)\n    b4 = self.branch_pool(x)\n    return torch.cat([b1, b2, b3, b4], dim=1)"
+    }
+  },
+  {
+    "id": "head_avgpool_flatten_dropout_linear_1024_to_1000",
+    "type": "head_fused",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "adaptive_avg_pool2d",
+        "output_size": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "flatten",
+        "start_dim": 1
+      },
+      {
+        "op": "dropout",
+        "p": 0.0
+      },
+      {
+        "op": "linear",
+        "in_features": 1024,
+        "out_features": 1000,
+        "bias": true
+      }
+    ],
+    "input_shape": [
+      10,
+      1024,
+      7,
+      7
+    ],
+    "output_shape": [
+      10,
+      1000
+    ],
+    "weights_fused": {
+      "fc.weight": [
+        1000,
+        1024
+      ],
+      "fc.bias": [
+        1000
+      ]
+    },
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward head",
+    "source": {
+      "module": "AvgPoolFlattenDropoutLinear",
+      "code": "def forward(self, x):\n    x = self.avgpool(x)\n    x = torch.flatten(x, 1)\n    x = self.dropout(x)\n    x = self.fc(x)\n    return x"
+    }
+  }
+]

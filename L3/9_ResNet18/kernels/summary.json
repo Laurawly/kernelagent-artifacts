@@ -1,0 +1,84 @@
+[
+  {
+    "id": "sg1_stem_convbnrelu_3x224x224_to_64x112x112",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_012459_151878",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251031_011818_a1bcd76a/kernels_out/sg1_stem_convbnrelu_3x224x224_to_64x112x112/kernel.py"
+  },
+  {
+    "id": "sg2_maxpool3x3_s2_64x112x112_to_64x56x56",
+    "success": true,
+    "worker_id": 0,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_012508_29929",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251031_011818_a1bcd76a/kernels_out/sg2_maxpool3x3_s2_64x112x112_to_64x56x56/kernel.py"
+  },
+  {
+    "id": "sg3_basicblock_64ch_56x56_s1",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_012442_603625",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251031_011818_a1bcd76a/kernels_out/sg3_basicblock_64ch_56x56_s1/kernel.py"
+  },
+  {
+    "id": "sg4_basicblock_down_64to128_56to28_s2",
+    "success": true,
+    "worker_id": 2,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_012551_131316",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251031_011818_a1bcd76a/kernels_out/sg4_basicblock_down_64to128_56to28_s2/kernel.py"
+  },
+  {
+    "id": "sg5_basicblock_128ch_28x28_s1",
+    "success": true,
+    "worker_id": 3,
+    "rounds": 2,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_013013_553797",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251031_011818_a1bcd76a/kernels_out/sg5_basicblock_128ch_28x28_s1/kernel.py"
+  },
+  {
+    "id": "sg6_basicblock_down_128to256_28to14_s2",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_013059_788056"
+  },
+  {
+    "id": "sg7_basicblock_256ch_14x14_s1",
+    "success": true,
+    "worker_id": 3,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_013140_329527",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251031_011818_a1bcd76a/kernels_out/sg7_basicblock_256ch_14x14_s1/kernel.py"
+  },
+  {
+    "id": "sg8_basicblock_down_256to512_14to7_s2",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_013330_899998"
+  },
+  {
+    "id": "sg9_basicblock_512ch_7x7_s1",
+    "success": true,
+    "worker_id": 3,
+    "rounds": 2,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_013913_742801",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251031_011818_a1bcd76a/kernels_out/sg9_basicblock_512ch_7x7_s1/kernel.py"
+  },
+  {
+    "id": "sg10_adaptiveavgpool_flatten_512_7x7_to_512",
+    "success": true,
+    "worker_id": 1,
+    "rounds": 1,
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_013910_908899",
+    "kernel_path": "/home/leyuan/workplace/kernel_fuser/KernelAgent/.fuse/run_20251031_011818_a1bcd76a/kernels_out/sg10_adaptiveavgpool_flatten_512_7x7_to_512/kernel.py"
+  },
+  {
+    "id": "sg11_linear_512_to_1000",
+    "success": false,
+    "message": "Failed to generate working kernel",
+    "session_dir": "/home/leyuan/workplace/kernel_fuser/KernelAgent/triton_kernel_logs/session_20251031_014359_526649"
+  }
+]

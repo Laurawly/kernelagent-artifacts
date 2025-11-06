@@ -1,0 +1,10 @@
+{
+  "level": "L2",
+  "name": "70_Gemm_Sigmoid_Scaling_ResidualAdd",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

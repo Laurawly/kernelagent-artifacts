@@ -1,0 +1,1239 @@
+[
+  {
+    "id": "sg1_stem_convbnrelu_3x224x224_to_64x112x112",
+    "type": "ConvBNReLU2d",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          7,
+          7
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          3,
+          3
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 64
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      }
+    ],
+    "input_shape": [
+      2,
+      3,
+      224,
+      224
+    ],
+    "output_shape": [
+      2,
+      64,
+      112,
+      112
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv_weight": [
+        64,
+        3,
+        7,
+        7
+      ],
+      "bn_weight": [
+        64
+      ],
+      "bn_bias": [
+        64
+      ],
+      "bn_running_mean": [
+        64
+      ],
+      "bn_running_var": [
+        64
+      ]
+    },
+    "count": 1,
+    "where": "Model.forward stem",
+    "source": {
+      "module": "ConvBNReLU2d",
+      "code": "x = self.conv(x)\n        x = self.bn(x)\n        x = self.relu(x)\n        return x"
+    }
+  },
+  {
+    "id": "sg2_maxpool3x3_s2_64x112x112_to_64x56x56",
+    "type": "MaxPool2dModule",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "max_pool2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ]
+      }
+    ],
+    "input_shape": [
+      2,
+      64,
+      112,
+      112
+    ],
+    "output_shape": [
+      2,
+      64,
+      56,
+      56
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward maxpool",
+    "source": {
+      "module": "MaxPool2dModule",
+      "code": "return self.pool(x)"
+    }
+  },
+  {
+    "id": "sg3_basicblock_64ch_56x56_s1",
+    "type": "BasicBlockFused",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 64
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 64
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            2,
+            64,
+            56,
+            56
+          ],
+          [
+            2,
+            64,
+            56,
+            56
+          ]
+        ]
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      }
+    ],
+    "input_shape": [
+      2,
+      64,
+      56,
+      56
+    ],
+    "output_shape": [
+      2,
+      64,
+      56,
+      56
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv1_weight": [
+        64,
+        64,
+        3,
+        3
+      ],
+      "bn1_weight": [
+        64
+      ],
+      "bn1_bias": [
+        64
+      ],
+      "bn1_running_mean": [
+        64
+      ],
+      "bn1_running_var": [
+        64
+      ],
+      "conv2_weight": [
+        64,
+        64,
+        3,
+        3
+      ],
+      "bn2_weight": [
+        64
+      ],
+      "bn2_bias": [
+        64
+      ],
+      "bn2_running_mean": [
+        64
+      ],
+      "bn2_running_var": [
+        64
+      ]
+    },
+    "count": 2,
+    "where": "layer1.block1, layer1.block2",
+    "source": {
+      "module": "BasicBlockFused",
+      "code": "identity = x\n\n        out = self.relu(self.bn1(self.conv1(x)))\n        out = self.bn2(self.conv2(out))\n\n        if self.downsample is not None:\n            identity = self.downsample(x)\n\n        out = self.relu(out + identity)\n        return out"
+    }
+  },
+  {
+    "id": "sg4_basicblock_down_64to128_56to28_s2",
+    "type": "BasicBlockFused",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 128
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 128
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bias": false,
+        "path": "downsample"
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 128,
+        "path": "downsample"
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            2,
+            128,
+            28,
+            28
+          ],
+          [
+            2,
+            128,
+            28,
+            28
+          ]
+        ]
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      }
+    ],
+    "input_shape": [
+      2,
+      64,
+      56,
+      56
+    ],
+    "output_shape": [
+      2,
+      128,
+      28,
+      28
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv1_weight": [
+        128,
+        64,
+        3,
+        3
+      ],
+      "bn1_weight": [
+        128
+      ],
+      "bn1_bias": [
+        128
+      ],
+      "bn1_running_mean": [
+        128
+      ],
+      "bn1_running_var": [
+        128
+      ],
+      "conv2_weight": [
+        128,
+        128,
+        3,
+        3
+      ],
+      "bn2_weight": [
+        128
+      ],
+      "bn2_bias": [
+        128
+      ],
+      "bn2_running_mean": [
+        128
+      ],
+      "bn2_running_var": [
+        128
+      ],
+      "downsample_conv_weight": [
+        128,
+        64,
+        1,
+        1
+      ],
+      "downsample_bn_weight": [
+        128
+      ],
+      "downsample_bn_bias": [
+        128
+      ],
+      "downsample_bn_running_mean": [
+        128
+      ],
+      "downsample_bn_running_var": [
+        128
+      ]
+    },
+    "count": 1,
+    "where": "layer2.block1",
+    "source": {
+      "module": "BasicBlockFused",
+      "code": "identity = x\n\n        out = self.relu(self.bn1(self.conv1(x)))\n        out = self.bn2(self.conv2(out))\n\n        if self.downsample is not None:\n            identity = self.downsample(x)\n\n        out = self.relu(out + identity)\n        return out"
+    }
+  },
+  {
+    "id": "sg5_basicblock_128ch_28x28_s1",
+    "type": "BasicBlockFused",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 128
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 128
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            2,
+            128,
+            28,
+            28
+          ],
+          [
+            2,
+            128,
+            28,
+            28
+          ]
+        ]
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      }
+    ],
+    "input_shape": [
+      2,
+      128,
+      28,
+      28
+    ],
+    "output_shape": [
+      2,
+      128,
+      28,
+      28
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv1_weight": [
+        128,
+        128,
+        3,
+        3
+      ],
+      "bn1_weight": [
+        128
+      ],
+      "bn1_bias": [
+        128
+      ],
+      "bn1_running_mean": [
+        128
+      ],
+      "bn1_running_var": [
+        128
+      ],
+      "conv2_weight": [
+        128,
+        128,
+        3,
+        3
+      ],
+      "bn2_weight": [
+        128
+      ],
+      "bn2_bias": [
+        128
+      ],
+      "bn2_running_mean": [
+        128
+      ],
+      "bn2_running_var": [
+        128
+      ]
+    },
+    "count": 1,
+    "where": "layer2.block2",
+    "source": {
+      "module": "BasicBlockFused",
+      "code": "identity = x\n\n        out = self.relu(self.bn1(self.conv1(x)))\n        out = self.bn2(self.conv2(out))\n\n        if self.downsample is not None:\n            identity = self.downsample(x)\n\n        out = self.relu(out + identity)\n        return out"
+    }
+  },
+  {
+    "id": "sg6_basicblock_down_128to256_28to14_s2",
+    "type": "BasicBlockFused",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 256
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 256
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bias": false,
+        "path": "downsample"
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 256,
+        "path": "downsample"
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            2,
+            256,
+            14,
+            14
+          ],
+          [
+            2,
+            256,
+            14,
+            14
+          ]
+        ]
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      }
+    ],
+    "input_shape": [
+      2,
+      128,
+      28,
+      28
+    ],
+    "output_shape": [
+      2,
+      256,
+      14,
+      14
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv1_weight": [
+        256,
+        128,
+        3,
+        3
+      ],
+      "bn1_weight": [
+        256
+      ],
+      "bn1_bias": [
+        256
+      ],
+      "bn1_running_mean": [
+        256
+      ],
+      "bn1_running_var": [
+        256
+      ],
+      "conv2_weight": [
+        256,
+        256,
+        3,
+        3
+      ],
+      "bn2_weight": [
+        256
+      ],
+      "bn2_bias": [
+        256
+      ],
+      "bn2_running_mean": [
+        256
+      ],
+      "bn2_running_var": [
+        256
+      ],
+      "downsample_conv_weight": [
+        256,
+        128,
+        1,
+        1
+      ],
+      "downsample_bn_weight": [
+        256
+      ],
+      "downsample_bn_bias": [
+        256
+      ],
+      "downsample_bn_running_mean": [
+        256
+      ],
+      "downsample_bn_running_var": [
+        256
+      ]
+    },
+    "count": 1,
+    "where": "layer3.block1",
+    "source": {
+      "module": "BasicBlockFused",
+      "code": "identity = x\n\n        out = self.relu(self.bn1(self.conv1(x)))\n        out = self.bn2(self.conv2(out))\n\n        if self.downsample is not None:\n            identity = self.downsample(x)\n\n        out = self.relu(out + identity)\n        return out"
+    }
+  },
+  {
+    "id": "sg7_basicblock_256ch_14x14_s1",
+    "type": "BasicBlockFused",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 256
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 256
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            2,
+            256,
+            14,
+            14
+          ],
+          [
+            2,
+            256,
+            14,
+            14
+          ]
+        ]
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      }
+    ],
+    "input_shape": [
+      2,
+      256,
+      14,
+      14
+    ],
+    "output_shape": [
+      2,
+      256,
+      14,
+      14
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv1_weight": [
+        256,
+        256,
+        3,
+        3
+      ],
+      "bn1_weight": [
+        256
+      ],
+      "bn1_bias": [
+        256
+      ],
+      "bn1_running_mean": [
+        256
+      ],
+      "bn1_running_var": [
+        256
+      ],
+      "conv2_weight": [
+        256,
+        256,
+        3,
+        3
+      ],
+      "bn2_weight": [
+        256
+      ],
+      "bn2_bias": [
+        256
+      ],
+      "bn2_running_mean": [
+        256
+      ],
+      "bn2_running_var": [
+        256
+      ]
+    },
+    "count": 1,
+    "where": "layer3.block2",
+    "source": {
+      "module": "BasicBlockFused",
+      "code": "identity = x\n\n        out = self.relu(self.bn1(self.conv1(x)))\n        out = self.bn2(self.conv2(out))\n\n        if self.downsample is not None:\n            identity = self.downsample(x)\n\n        out = self.relu(out + identity)\n        return out"
+    }
+  },
+  {
+    "id": "sg8_basicblock_down_256to512_14to7_s2",
+    "type": "BasicBlockFused",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 512
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 512
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          1,
+          1
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "padding": [
+          0,
+          0
+        ],
+        "groups": 1,
+        "bias": false,
+        "path": "downsample"
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 512,
+        "path": "downsample"
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            2,
+            512,
+            7,
+            7
+          ],
+          [
+            2,
+            512,
+            7,
+            7
+          ]
+        ]
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      }
+    ],
+    "input_shape": [
+      2,
+      256,
+      14,
+      14
+    ],
+    "output_shape": [
+      2,
+      512,
+      7,
+      7
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv1_weight": [
+        512,
+        256,
+        3,
+        3
+      ],
+      "bn1_weight": [
+        512
+      ],
+      "bn1_bias": [
+        512
+      ],
+      "bn1_running_mean": [
+        512
+      ],
+      "bn1_running_var": [
+        512
+      ],
+      "conv2_weight": [
+        512,
+        512,
+        3,
+        3
+      ],
+      "bn2_weight": [
+        512
+      ],
+      "bn2_bias": [
+        512
+      ],
+      "bn2_running_mean": [
+        512
+      ],
+      "bn2_running_var": [
+        512
+      ],
+      "downsample_conv_weight": [
+        512,
+        256,
+        1,
+        1
+      ],
+      "downsample_bn_weight": [
+        512
+      ],
+      "downsample_bn_bias": [
+        512
+      ],
+      "downsample_bn_running_mean": [
+        512
+      ],
+      "downsample_bn_running_var": [
+        512
+      ]
+    },
+    "count": 1,
+    "where": "layer4.block1",
+    "source": {
+      "module": "BasicBlockFused",
+      "code": "identity = x\n\n        out = self.relu(self.bn1(self.conv1(x)))\n        out = self.bn2(self.conv2(out))\n\n        if self.downsample is not None:\n            identity = self.downsample(x)\n\n        out = self.relu(out + identity)\n        return out"
+    }
+  },
+  {
+    "id": "sg9_basicblock_512ch_7x7_s1",
+    "type": "BasicBlockFused",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 512
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "padding": [
+          1,
+          1
+        ],
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batch_norm2d",
+        "num_features": 512
+      },
+      {
+        "op": "add",
+        "inputs": [
+          [
+            2,
+            512,
+            7,
+            7
+          ],
+          [
+            2,
+            512,
+            7,
+            7
+          ]
+        ]
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      }
+    ],
+    "input_shape": [
+      2,
+      512,
+      7,
+      7
+    ],
+    "output_shape": [
+      2,
+      512,
+      7,
+      7
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv1_weight": [
+        512,
+        512,
+        3,
+        3
+      ],
+      "bn1_weight": [
+        512
+      ],
+      "bn1_bias": [
+        512
+      ],
+      "bn1_running_mean": [
+        512
+      ],
+      "bn1_running_var": [
+        512
+      ],
+      "conv2_weight": [
+        512,
+        512,
+        3,
+        3
+      ],
+      "bn2_weight": [
+        512
+      ],
+      "bn2_bias": [
+        512
+      ],
+      "bn2_running_mean": [
+        512
+      ],
+      "bn2_running_var": [
+        512
+      ]
+    },
+    "count": 1,
+    "where": "layer4.block2",
+    "source": {
+      "module": "BasicBlockFused",
+      "code": "identity = x\n\n        out = self.relu(self.bn1(self.conv1(x)))\n        out = self.bn2(self.conv2(out))\n\n        if self.downsample is not None:\n            identity = self.downsample(x)\n\n        out = self.relu(out + identity)\n        return out"
+    }
+  },
+  {
+    "id": "sg10_adaptiveavgpool_flatten_512_7x7_to_512",
+    "type": "AdaptiveAvgPoolFlatten",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "adaptive_avg_pool2d",
+        "output_size": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "flatten",
+        "start_dim": 1
+      }
+    ],
+    "input_shape": [
+      2,
+      512,
+      7,
+      7
+    ],
+    "output_shape": [
+      2,
+      512
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.forward head.avgpool+flatten",
+    "source": {
+      "module": "AdaptiveAvgPoolFlatten",
+      "code": "x = self.pool(x)\n        x = torch.flatten(x, 1)\n        return x"
+    }
+  },
+  {
+    "id": "sg11_linear_512_to_1000",
+    "type": "LinearClassifier",
+    "data_layout": null,
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "linear",
+        "in_features": 512,
+        "out_features": 1000,
+        "bias": true
+      }
+    ],
+    "input_shape": [
+      2,
+      512
+    ],
+    "output_shape": [
+      2,
+      1000
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "linear_weight": [
+        1000,
+        512
+      ],
+      "linear_bias": [
+        1000
+      ]
+    },
+    "count": 1,
+    "where": "Model.forward head.fc",
+    "source": {
+      "module": "LinearClassifier",
+      "code": "return self.fc(x)"
+    }
+  }
+]

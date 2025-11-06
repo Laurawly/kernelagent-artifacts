@@ -1,0 +1,619 @@
+[
+  {
+    "id": "stem_conv7x7_s2_maxpool3x3_s2_3x224x224_to_64x56x56",
+    "type": "stem",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "conv2d",
+        "in_channels": 3,
+        "out_channels": 64,
+        "kernel_size": 7,
+        "stride": 2,
+        "padding": 3,
+        "dilation": 1,
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "batchnorm2d",
+        "num_features": 64,
+        "eps": 1e-05,
+        "momentum": 0.1,
+        "affine": true,
+        "track_running_stats": true
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "maxpool2d",
+        "kernel_size": 3,
+        "stride": 2,
+        "padding": 1,
+        "dilation": 1,
+        "ceil_mode": false
+      }
+    ],
+    "input_shape": [
+      10,
+      3,
+      224,
+      224
+    ],
+    "output_shape": [
+      10,
+      64,
+      56,
+      56
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "conv.weight": [
+        64,
+        3,
+        7,
+        7
+      ],
+      "bn.weight": [
+        64
+      ],
+      "bn.bias": [
+        64
+      ],
+      "bn.running_mean": [
+        64
+      ],
+      "bn.running_var": [
+        64
+      ]
+    },
+    "count": 1,
+    "where": "Model.stem",
+    "source": {
+      "module": "FusedStem",
+      "code": "def forward(self, x: torch.Tensor) -> torch.Tensor:\n        x = self.conv(x)\n        x = self.bn(x)\n        x = self.relu(x)\n        x = self.pool(x)\n        return x"
+    }
+  },
+  {
+    "id": "denseblock1_L6_GR32_64x56x56_to_256x56x56",
+    "type": "denseblock",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "batchnorm2d",
+        "repeats": 6
+      },
+      {
+        "op": "relu",
+        "inplace": true,
+        "repeats": 6
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 1,
+        "dilation": 1,
+        "groups": 1,
+        "bias": false,
+        "growth_rate": 32,
+        "repeats": 6
+      },
+      {
+        "op": "dropout",
+        "p": 0.0,
+        "inplace": false,
+        "repeats": 6
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "repeats": 6
+      }
+    ],
+    "input_shape": [
+      10,
+      64,
+      56,
+      56
+    ],
+    "output_shape": [
+      10,
+      256,
+      56,
+      56
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.dense_blocks[0]",
+    "source": {
+      "module": "FusedDenseBlock",
+      "code": "def forward(self, x: torch.Tensor) -> torch.Tensor:\n        features = [x]\n        current = x\n        for layer in self.layers:\n            new_feature = layer(current)\n            features.append(new_feature)\n            current = torch.cat(features, dim=1)\n        return current"
+    }
+  },
+  {
+    "id": "transition1_bn_relu_conv1x1_avgpool2_256x56x56_to_128x28x28",
+    "type": "transition",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "batchnorm2d",
+        "num_features": 256,
+        "eps": 1e-05,
+        "momentum": 0.1,
+        "affine": true,
+        "track_running_stats": true
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 256,
+        "out_channels": 128,
+        "kernel_size": 1,
+        "stride": 1,
+        "padding": 0,
+        "dilation": 1,
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "avgpool2d",
+        "kernel_size": 2,
+        "stride": 2,
+        "padding": 0
+      }
+    ],
+    "input_shape": [
+      10,
+      256,
+      56,
+      56
+    ],
+    "output_shape": [
+      10,
+      128,
+      28,
+      28
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "bn.weight": [
+        256
+      ],
+      "bn.bias": [
+        256
+      ],
+      "bn.running_mean": [
+        256
+      ],
+      "bn.running_var": [
+        256
+      ],
+      "conv.weight": [
+        128,
+        256,
+        1,
+        1
+      ]
+    },
+    "count": 1,
+    "where": "Model.transitions[0]",
+    "source": {
+      "module": "FusedTransition",
+      "code": "def forward(self, x: torch.Tensor) -> torch.Tensor:\n        x = self.bn(x)\n        x = self.relu(x)\n        x = self.conv(x)\n        x = self.pool(x)\n        return x"
+    }
+  },
+  {
+    "id": "denseblock2_L12_GR32_128x28x28_to_512x28x28",
+    "type": "denseblock",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "batchnorm2d",
+        "repeats": 12
+      },
+      {
+        "op": "relu",
+        "inplace": true,
+        "repeats": 12
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 1,
+        "dilation": 1,
+        "groups": 1,
+        "bias": false,
+        "growth_rate": 32,
+        "repeats": 12
+      },
+      {
+        "op": "dropout",
+        "p": 0.0,
+        "inplace": false,
+        "repeats": 12
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "repeats": 12
+      }
+    ],
+    "input_shape": [
+      10,
+      128,
+      28,
+      28
+    ],
+    "output_shape": [
+      10,
+      512,
+      28,
+      28
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.dense_blocks[1]",
+    "source": {
+      "module": "FusedDenseBlock",
+      "code": "def forward(self, x: torch.Tensor) -> torch.Tensor:\n        features = [x]\n        current = x\n        for layer in self.layers:\n            new_feature = layer(current)\n            features.append(new_feature)\n            current = torch.cat(features, dim=1)\n        return current"
+    }
+  },
+  {
+    "id": "transition2_bn_relu_conv1x1_avgpool2_512x28x28_to_256x14x14",
+    "type": "transition",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "batchnorm2d",
+        "num_features": 512,
+        "eps": 1e-05,
+        "momentum": 0.1,
+        "affine": true,
+        "track_running_stats": true
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 512,
+        "out_channels": 256,
+        "kernel_size": 1,
+        "stride": 1,
+        "padding": 0,
+        "dilation": 1,
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "avgpool2d",
+        "kernel_size": 2,
+        "stride": 2,
+        "padding": 0
+      }
+    ],
+    "input_shape": [
+      10,
+      512,
+      28,
+      28
+    ],
+    "output_shape": [
+      10,
+      256,
+      14,
+      14
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "bn.weight": [
+        512
+      ],
+      "bn.bias": [
+        512
+      ],
+      "bn.running_mean": [
+        512
+      ],
+      "bn.running_var": [
+        512
+      ],
+      "conv.weight": [
+        256,
+        512,
+        1,
+        1
+      ]
+    },
+    "count": 1,
+    "where": "Model.transitions[1]",
+    "source": {
+      "module": "FusedTransition",
+      "code": "def forward(self, x: torch.Tensor) -> torch.Tensor:\n        x = self.bn(x)\n        x = self.relu(x)\n        x = self.conv(x)\n        x = self.pool(x)\n        return x"
+    }
+  },
+  {
+    "id": "denseblock3_L24_GR32_256x14x14_to_1024x14x14",
+    "type": "denseblock",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "batchnorm2d",
+        "repeats": 24
+      },
+      {
+        "op": "relu",
+        "inplace": true,
+        "repeats": 24
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 1,
+        "dilation": 1,
+        "groups": 1,
+        "bias": false,
+        "growth_rate": 32,
+        "repeats": 24
+      },
+      {
+        "op": "dropout",
+        "p": 0.0,
+        "inplace": false,
+        "repeats": 24
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "repeats": 24
+      }
+    ],
+    "input_shape": [
+      10,
+      256,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      1024,
+      14,
+      14
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.dense_blocks[2]",
+    "source": {
+      "module": "FusedDenseBlock",
+      "code": "def forward(self, x: torch.Tensor) -> torch.Tensor:\n        features = [x]\n        current = x\n        for layer in self.layers:\n            new_feature = layer(current)\n            features.append(new_feature)\n            current = torch.cat(features, dim=1)\n        return current"
+    }
+  },
+  {
+    "id": "transition3_bn_relu_conv1x1_avgpool2_1024x14x14_to_512x7x7",
+    "type": "transition",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "batchnorm2d",
+        "num_features": 1024,
+        "eps": 1e-05,
+        "momentum": 0.1,
+        "affine": true,
+        "track_running_stats": true
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "conv2d",
+        "in_channels": 1024,
+        "out_channels": 512,
+        "kernel_size": 1,
+        "stride": 1,
+        "padding": 0,
+        "dilation": 1,
+        "groups": 1,
+        "bias": false
+      },
+      {
+        "op": "avgpool2d",
+        "kernel_size": 2,
+        "stride": 2,
+        "padding": 0
+      }
+    ],
+    "input_shape": [
+      10,
+      1024,
+      14,
+      14
+    ],
+    "output_shape": [
+      10,
+      512,
+      7,
+      7
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "bn.weight": [
+        1024
+      ],
+      "bn.bias": [
+        1024
+      ],
+      "bn.running_mean": [
+        1024
+      ],
+      "bn.running_var": [
+        1024
+      ],
+      "conv.weight": [
+        512,
+        1024,
+        1,
+        1
+      ]
+    },
+    "count": 1,
+    "where": "Model.transitions[2]",
+    "source": {
+      "module": "FusedTransition",
+      "code": "def forward(self, x: torch.Tensor) -> torch.Tensor:\n        x = self.bn(x)\n        x = self.relu(x)\n        x = self.conv(x)\n        x = self.pool(x)\n        return x"
+    }
+  },
+  {
+    "id": "denseblock4_L16_GR32_512x7x7_to_1024x7x7",
+    "type": "denseblock",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "batchnorm2d",
+        "repeats": 16
+      },
+      {
+        "op": "relu",
+        "inplace": true,
+        "repeats": 16
+      },
+      {
+        "op": "conv2d",
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 1,
+        "dilation": 1,
+        "groups": 1,
+        "bias": false,
+        "growth_rate": 32,
+        "repeats": 16
+      },
+      {
+        "op": "dropout",
+        "p": 0.0,
+        "inplace": false,
+        "repeats": 16
+      },
+      {
+        "op": "cat",
+        "dim": 1,
+        "repeats": 16
+      }
+    ],
+    "input_shape": [
+      10,
+      512,
+      7,
+      7
+    ],
+    "output_shape": [
+      10,
+      1024,
+      7,
+      7
+    ],
+    "weights_fused": null,
+    "weights_original": null,
+    "count": 1,
+    "where": "Model.dense_blocks[3]",
+    "source": {
+      "module": "FusedDenseBlock",
+      "code": "def forward(self, x: torch.Tensor) -> torch.Tensor:\n        features = [x]\n        current = x\n        for layer in self.layers:\n            new_feature = layer(current)\n            features.append(new_feature)\n            current = torch.cat(features, dim=1)\n        return current"
+    }
+  },
+  {
+    "id": "head_bn_relu_gap_flatten_fc_1024x7x7_to_10",
+    "type": "head",
+    "data_layout": "NCHW",
+    "dtype": "float32",
+    "ops": [
+      {
+        "op": "batchnorm2d",
+        "num_features": 1024,
+        "eps": 1e-05,
+        "momentum": 0.1,
+        "affine": true,
+        "track_running_stats": true
+      },
+      {
+        "op": "relu",
+        "inplace": true
+      },
+      {
+        "op": "adaptive_avg_pool2d",
+        "output_size": [
+          1,
+          1
+        ]
+      },
+      {
+        "op": "flatten",
+        "start_dim": 1
+      },
+      {
+        "op": "linear",
+        "in_features": 1024,
+        "out_features": 10,
+        "bias": true
+      }
+    ],
+    "input_shape": [
+      10,
+      1024,
+      7,
+      7
+    ],
+    "output_shape": [
+      10,
+      10
+    ],
+    "weights_fused": null,
+    "weights_original": {
+      "bn.weight": [
+        1024
+      ],
+      "bn.bias": [
+        1024
+      ],
+      "bn.running_mean": [
+        1024
+      ],
+      "bn.running_var": [
+        1024
+      ],
+      "linear.weight": [
+        10,
+        1024
+      ],
+      "linear.bias": [
+        10
+      ]
+    },
+    "count": 1,
+    "where": "Model.head",
+    "source": {
+      "module": "FusedHead",
+      "code": "def forward(self, x: torch.Tensor) -> torch.Tensor:\n        x = self.bn(x)\n        x = F.relu(x, inplace=True)\n        x = F.adaptive_avg_pool2d(x, (1, 1))\n        x = x.view(x.size(0), -1)\n        x = self.fc(x)\n        return x"
+    }
+  }
+]

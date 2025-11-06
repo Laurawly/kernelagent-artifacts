@@ -1,0 +1,10 @@
+{
+  "level": "L1",
+  "name": "1_Square_matrix_multiplication_",
+  "files": {
+    "original": "original.py",
+    "kernel": "kernel_code.py"
+  },
+  "route": "kernelagent",
+  "verify": {}
+}

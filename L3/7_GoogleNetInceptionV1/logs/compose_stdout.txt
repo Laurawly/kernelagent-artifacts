@@ -1,0 +1,3 @@
+Output shape: torch.Size([10, 1000]) | Reference shape: torch.Size([10, 1000])
+Max abs diff: 0.000052
+PASS

@@ -1,0 +1,10 @@
+{
+  "example": "L3-examples/resnet-block",
+  "route": "fuser",
+  "files": {
+    "original": "input_model.py",
+    "subgraphs": "fused_subgraphs.json",
+    "kernel": "composed_kernel.py",
+    "log": "verification.log"
+  }
+}
